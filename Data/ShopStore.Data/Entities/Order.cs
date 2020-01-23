@@ -1,9 +1,9 @@
-﻿using ShotStore.Data.Identity;
+﻿using ShopStore.Data.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShotStore.Data.Entities
+namespace ShopStore.Data.Entities
 {
     public class Order
     {

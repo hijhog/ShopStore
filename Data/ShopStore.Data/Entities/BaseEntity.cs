@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShotStore.Data.Entities
+namespace ShopStore.Data.Entities
 {
     public class BaseEntity
     {

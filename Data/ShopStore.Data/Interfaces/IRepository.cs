@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ShotStore.Data.Interfaces
+namespace ShopStore.Data.Interfaces
 {
     public interface IRepository<TEntity> where TEntity: class
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShotStore.Data.Interfaces;
+using ShopStore.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ShotStore.Data.Repositories
+namespace ShopStore.Data.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> 
         where TEntity : class

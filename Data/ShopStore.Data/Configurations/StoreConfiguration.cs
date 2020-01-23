@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShotStore.Data.Entities;
+using ShopStore.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShotStore.Data.Configurations
+namespace ShopStore.Data.Configurations
 {
     public class StoreConfiguration : IEntityTypeConfiguration<Store>
     {
