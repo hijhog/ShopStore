@@ -4,6 +4,7 @@ using ShopStore.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ShopStore.Services.ProductService.Models;
 
 namespace ShopStore.Services.MapperConfiguration
 {
@@ -12,8 +13,12 @@ namespace ShopStore.Services.MapperConfiguration
         public ServiceMapperConfiguration()
         {
             CreateMap<Category, CategoryDTO>();
-            CreateMap<CategoryDTO, Category>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<CategoryDTO, Category>();
+
+            CreateMap<Product, ProductDTO>()
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name));
+            CreateMap<ProductDTO, Product>()
+                .ForMember(dest => dest.Category, opt => opt.Ignore());
         }
     }
 }

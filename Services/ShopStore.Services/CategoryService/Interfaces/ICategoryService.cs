@@ -10,8 +10,7 @@ namespace ShopStore.Services.CategoryService.Interfaces
     {
         CategoryDTO Get(int id);
         IEnumerable<CategoryDTO> GetAll();
-        OperationResult Add(CategoryDTO dto);
-        OperationResult Edit(CategoryDTO dto);
+        OperationResult Save(CategoryDTO dto);
         OperationResult Remove(int id);
     }
 }

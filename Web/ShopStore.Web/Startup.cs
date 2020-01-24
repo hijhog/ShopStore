@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ShopStore.Services.CategoryService;
-using ShopStore.Services.CategoryService.Interfaces;
 using ShopStore.Data;
-using ShopStore.Data.Interfaces;
-using ShopStore.Data.Repositories;
 using ShopStore.Web.Configurations;
 using AutoMapper;
 using ShopStore.Services.MapperConfiguration;
@@ -38,9 +29,16 @@ namespace ShopStore.Web
             services.AddIdentity<AppUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<ApplicationContext>();
 
+            services.ConfigureApplicationCookie(options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "/Account/Logout";
+                    options.AccessDeniedPath = "/Account/AccessDenied";
+                });
+
             services.AddAutoMapper(typeof(WebMapperConfiguration), typeof(ServiceMapperConfiguration));
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<ICategoryService, CategoryService>();
+
+            DependencyConfiguration.Configure(services);
 
             services.AddMvc();
         }
@@ -66,7 +64,7 @@ namespace ShopStore.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Category}/{action=Index}/{id?}");
+                    template: "{controller=Product}/{action=Index}/{id?}");
             });
         }
     }

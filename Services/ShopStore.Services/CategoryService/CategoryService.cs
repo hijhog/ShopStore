@@ -36,44 +36,6 @@ namespace ShopStore.Services.CategoryService
                 _mapper.Map<CategoryDTO>(x));
         }
 
-        public OperationResult Add(CategoryDTO dto)
-        {
-            var result = new OperationResult();
-            try
-            {
-                var category = _mapper.Map<Category>(dto);
-                _categoryRepo.Insert(category);
-                _categoryRepo.Save();
-
-                result.Successed = true;
-
-            }
-            catch(Exception ex)
-            {
-                result.Description = ex.Message;
-            }
-            return result;
-        }
-
-        public OperationResult Edit(CategoryDTO dto)
-        {
-            var result = new OperationResult();
-            try
-            {
-                Category category = _categoryRepo.Get(dto.Id);
-                _mapper.Map(dto, category);
-                _categoryRepo.Update(category);
-                _categoryRepo.Save();
-
-                result.Successed = true;
-            }
-            catch(Exception ex)
-            {
-                result.Description = ex.Message;
-            }
-            return result;
-        }
-
         public OperationResult Remove(int id)
         {
             var result = new OperationResult();
@@ -82,6 +44,33 @@ namespace ShopStore.Services.CategoryService
                 _categoryRepo.Remove(id);
                 _categoryRepo.Save();
 
+                result.Successed = true;
+            }
+            catch(Exception ex)
+            {
+                result.Description = ex.Message;
+            }
+            return result;
+        }
+
+        public OperationResult Save(CategoryDTO dto)
+        {
+            var result = new OperationResult();
+            try
+            {
+                Category category = _categoryRepo.Get(dto.Id);
+                if(category == null)
+                {
+                    category = _mapper.Map<Category>(dto);
+                    _categoryRepo.Insert(category);
+                }
+                else
+                {
+                    _mapper.Map(dto, category);
+                    _categoryRepo.Update(category);
+                }
+
+                _categoryRepo.Save();
                 result.Successed = true;
             }
             catch(Exception ex)

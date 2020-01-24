@@ -2,12 +2,21 @@
 @model IEnumerable<CategoryDTO>
 @{
     ViewData["Title"] = "Index";
+    string errorMessage = ViewBag.ErrorMessage;
 }
-
-<table>
+<div>
+    <a asp-action="Create">Create New Category</a>
+</div>
+@if (string.IsNullOrEmpty(errorMessage))
+{
+    <div class="text-danger">@errorMessage</div>
+}
+<table class="table table-sm">
     <tr>
         <th>ID</th>
         <th>Name</th>
+        <th></th>
+        <th></th>
     </tr>
     @if (Model.Any())
     {
@@ -16,12 +25,14 @@
             <tr>
                 <td>@cat.Id</td>
                 <td>@cat.Name</td>
+                <td><a asp-action="Edit" asp-route-id="@cat.Id">Edit</a></td>
+                <td><a asp-action="Remove" asp-route-id="@cat.Id">Remove</a></td>
             </tr>
         }
     }
     else
     {
-        <tr><td colspan="2">No Categories</td></tr>
+        <tr><td colspan="4">No Categories</td></tr>
     }
 </table>
 

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ProductService\Models\" />
+    <Folder Include="AccountService\Models\" />
   </ItemGroup>
 
   <ItemGroup>
