@@ -229,23 +229,43 @@ namespace ShopStore.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StoreProduct",
+                name: "Packs",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ProductId = table.Column<int>(nullable: false),
-                    StoreId = table.Column<int>(nullable: false)
+                    Count = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StoreProduct", x => new { x.ProductId, x.StoreId });
+                    table.PrimaryKey("PK_Packs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StoreProduct_Products_ProductId",
+                        name: "FK_Packs_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StorePacks",
+                columns: table => new
+                {
+                    PackId = table.Column<int>(nullable: false),
+                    StoreId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StorePacks", x => new { x.PackId, x.StoreId });
                     table.ForeignKey(
-                        name: "FK_StoreProduct_Stores_StoreId",
+                        name: "FK_StorePacks_Packs_PackId",
+                        column: x => x.PackId,
+                        principalTable: "Packs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StorePacks_Stores_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Stores",
                         principalColumn: "Id",
@@ -297,13 +317,18 @@ namespace ShopStore.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Packs_ProductId",
+                table: "Packs",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StoreProduct_StoreId",
-                table: "StoreProduct",
+                name: "IX_StorePacks_StoreId",
+                table: "StorePacks",
                 column: "StoreId");
         }
 
@@ -328,7 +353,7 @@ namespace ShopStore.Data.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "StoreProduct");
+                name: "StorePacks");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -337,10 +362,13 @@ namespace ShopStore.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Packs");
 
             migrationBuilder.DropTable(
                 name: "Stores");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Categories");

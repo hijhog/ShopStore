@@ -11,7 +11,7 @@ namespace ShopStore.Data.Models.BusinessEntities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public ICollection<StoreProduct> StoreProducts { get; set; }
+        public ICollection<Pack> Packs { get; set; }
         public ICollection<Order> Orders { get; set; }
     }
 }

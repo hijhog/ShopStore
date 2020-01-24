@@ -13,6 +13,9 @@ namespace ShopStore.Web.Configurations
 
             CreateMap<ProductDTO, ProductVM>();
             CreateMap<ProductVM, ProductDTO>();
+
+            CreateMap<StoreDTO, StoreVM>();
+            CreateMap<StoreVM, StoreDTO>();
         }
     }
 }

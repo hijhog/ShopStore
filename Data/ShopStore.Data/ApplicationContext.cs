@@ -19,13 +19,16 @@ namespace ShopStore.Data
 
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new StoreProductConfiguration());
+            modelBuilder.ApplyConfiguration(new StorePackConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new PackConfiguration());
         }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Pack> Packs { get; set; }
+        public DbSet<StorePack> StorePacks { get; set; }
     }
 }

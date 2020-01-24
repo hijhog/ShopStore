@@ -5,14 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Data\ShopStore.Data.Models\ShopStore.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\ShopStore.Data\ShopStore.Data.csproj" />
     <ProjectReference Include="..\..\ShopStore.Common\ShopStore.Common.csproj" />
-    <ProjectReference Include="..\ShopStore.Services.Data\ShopStore.Services.Data.csproj" />
   </ItemGroup>
 
 </Project>

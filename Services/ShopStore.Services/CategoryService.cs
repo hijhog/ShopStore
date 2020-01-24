@@ -12,26 +12,26 @@ namespace ShopStore.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IRepository<Category> _categoryRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public CategoryService(
-            IRepository<Category> categoryRepo,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
-            _categoryRepo = categoryRepo;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public CategoryDTO Get(int id)
         {
-            Category category = _categoryRepo.Get(id);
+            Category category = _unitOfWork.CategoryRepository.Get(id);
             return _mapper.Map<CategoryDTO>(category);
         }
 
         public IEnumerable<CategoryDTO> GetAll()
         {
-            return _categoryRepo.GetAll().Select(x => 
+            return _unitOfWork.CategoryRepository.GetAll().Select(x => 
                 _mapper.Map<CategoryDTO>(x));
         }
 
@@ -40,8 +40,8 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                _categoryRepo.Remove(id);
-                _categoryRepo.Save();
+                _unitOfWork.CategoryRepository.Remove(id);
+                _unitOfWork.CategoryRepository.Save();
 
                 result.Successed = true;
             }
@@ -57,19 +57,19 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                Category category = _categoryRepo.Get(dto.Id);
+                Category category = _unitOfWork.CategoryRepository.Get(dto.Id);
                 if(category == null)
                 {
                     category = _mapper.Map<Category>(dto);
-                    _categoryRepo.Insert(category);
+                    _unitOfWork.CategoryRepository.Insert(category);
                 }
                 else
                 {
                     _mapper.Map(dto, category);
-                    _categoryRepo.Update(category);
+                    _unitOfWork.CategoryRepository.Update(category);
                 }
 
-                _categoryRepo.Save();
+                _unitOfWork.CategoryRepository.Save();
                 result.Successed = true;
             }
             catch(Exception ex)

@@ -18,6 +18,9 @@ namespace ShopStore.Services.MapperConfiguration
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<ProductDTO, Product>()
                 .ForMember(dest => dest.Category, opt => opt.Ignore());
+
+            CreateMap<Store, StoreDTO>();
+            CreateMap<StoreDTO, Store>();
         }
     }
 }

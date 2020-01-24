@@ -1,74 +1,81 @@
-﻿using ShopStore.Data.Models.BusinessEntities;
+﻿using AutoMapper;
+using ShopStore.Common;
+using ShopStore.Data.Models.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
 using ShopStore.Services.Data.Interfaces;
+using ShopStore.Services.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopStore.Services
 {
     public class StoreService : IStoreService
     {
-        private readonly IRepository<Store> _storeRepo;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
         public StoreService(
-            IRepository<Store> storeRepo)
+            IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
-            _storeRepo = storeRepo;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        //public ProductDTO Get(int id)
-        //{
-        //    Product product = _productRepo.Get(id);
-        //    _productRepo.Reference(product, x => x.Category);
-        //    return _mapper.Map<ProductDTO>(product);
-        //}
+        public StoreDTO Get(int id)
+        {
+            Store store = _unitOfWork.StoreRepository.Get(id);
+            return _mapper.Map<StoreDTO>(store);
+        }
 
-        //public IEnumerable<ProductDTO> GetAll()
-        //{
-        //    var products = _productRepo.GetAll().Include(x => x.Category);
-        //    return products.Select(x =>
-        //        _mapper.Map<ProductDTO>(x));
-        //}
+        public IEnumerable<StoreDTO> GetAll()
+        {
+            return _unitOfWork.StoreRepository.GetAll().Select(x =>
+                _mapper.Map<StoreDTO>(x));
+        }
 
-        //public OperationResult Remove(int id)
-        //{
-        //    var result = new OperationResult();
-        //    try
-        //    {
-        //        _productRepo.Remove(id);
-        //        _productRepo.Save();
+        public OperationResult Remove(int id)
+        {
+            var result = new OperationResult();
+            try
+            {
+                _unitOfWork.StoreRepository.Remove(id);
+                _unitOfWork.StoreRepository.Save();
 
-        //        result.Successed = true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.Description = ex.Message;
-        //    }
-        //    return result;
-        //}
+                result.Successed = true;
+            }
+            catch (Exception ex)
+            {
+                result.Description = ex.Message;
+            }
+            return result;
+        }
 
-        //public OperationResult Save(ProductDTO dto)
-        //{
-        //    var result = new OperationResult();
-        //    try
-        //    {
-        //        Product product = _productRepo.Get(dto.Id);
-        //        if (product == null)
-        //        {
-        //            product = _mapper.Map<Product>(dto);
-        //            _productRepo.Insert(product);
-        //        }
-        //        else
-        //        {
-        //            _mapper.Map(dto, product);
-        //            _productRepo.Update(product);
-        //        }
+        public OperationResult Save(StoreDTO dto)
+        {
+            var result = new OperationResult();
+            try
+            {
+                Store store = _unitOfWork.StoreRepository.Get(dto.Id);
+                if (store == null)
+                {
+                    store = _mapper.Map<Store>(dto);
+                    _unitOfWork.StoreRepository.Insert(store);
+                }
+                else
+                {
+                    _mapper.Map(dto, store);
+                    _unitOfWork.StoreRepository.Update(store);
+                }
 
-        //        _productRepo.Save();
-        //        result.Successed = true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.Description = ex.Message;
-        //    }
-        //    return result;
-        //}
+                _unitOfWork.StoreRepository.Save();
+                result.Successed = true;
+            }
+            catch (Exception ex)
+            {
+                result.Description = ex.Message;
+            }
+            return result;
+        }
     }
 }

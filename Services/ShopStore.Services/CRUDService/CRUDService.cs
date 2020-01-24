@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ShopStore.Common;
-using ShopStore.Data.Interfaces;
+using ShopStore.Data.Models.Interfaces;
 using ShopStore.Services.CRUDService.Interfaces;
 using System;
 using System.Collections.Generic;

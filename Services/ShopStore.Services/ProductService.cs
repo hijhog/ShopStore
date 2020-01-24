@@ -13,26 +13,26 @@ namespace ShopStore.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IRepository<Product> _productRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public ProductService(
-            IRepository<Product> productRepo,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
-            _productRepo = productRepo;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public ProductDTO Get(int id)
         {
-            Product product = _productRepo.Get(id);
-            _productRepo.Reference(product, x => x.Category);
+            Product product = _unitOfWork.ProductRepository.Get(id);
+            _unitOfWork.ProductRepository.Reference(product, x => x.Category);
             return _mapper.Map<ProductDTO>(product);
         }
 
         public IEnumerable<ProductDTO> GetAll()
         {
-            var products = _productRepo.GetAll().Include(x=>x.Category);
+            var products = _unitOfWork.ProductRepository.GetAll().Include(x=>x.Category);
             return products.Select(x =>
                 _mapper.Map<ProductDTO>(x));
         }
@@ -42,8 +42,8 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                _productRepo.Remove(id);
-                _productRepo.Save();
+                _unitOfWork.ProductRepository.Remove(id);
+                _unitOfWork.ProductRepository.Save();
 
                 result.Successed = true;
             }
@@ -59,19 +59,19 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                Product product = _productRepo.Get(dto.Id);
+                Product product = _unitOfWork.ProductRepository.Get(dto.Id);
                 if (product == null)
                 {
                     product = _mapper.Map<Product>(dto);
-                    _productRepo.Insert(product);
+                    _unitOfWork.ProductRepository.Insert(product);
                 }
                 else
                 {
                     _mapper.Map(dto, product);
-                    _productRepo.Update(product);
+                    _unitOfWork.ProductRepository.Update(product);
                 }
 
-                _productRepo.Save();
+                _unitOfWork.ProductRepository.Save();
                 result.Successed = true;
             }
             catch (Exception ex)
