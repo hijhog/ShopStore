@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShopStore.Data.Configurations;
+using ShopStore.Data.Entities;
 using ShopStore.Data.Identity;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,13 @@ namespace ShopStore.Data
 
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new StoreConfiguration());
+            modelBuilder.ApplyConfiguration(new StoreProductConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
         }
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 }

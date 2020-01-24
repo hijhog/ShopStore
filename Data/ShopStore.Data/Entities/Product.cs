@@ -11,7 +11,7 @@ namespace ShopStore.Data.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public ICollection<Store> Stores { get; set; }
+        public ICollection<StoreProduct> StoreProducts { get; set; }
         public ICollection<Order> Orders { get; set; }
     }
 }

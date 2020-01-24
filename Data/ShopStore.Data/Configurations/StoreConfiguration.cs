@@ -11,7 +11,6 @@ namespace ShopStore.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Store> builder)
         {
-            builder.HasOne(x => x.Product).WithMany(x => x.Stores).HasForeignKey(x => x.ProductId);
         }
     }
 }
