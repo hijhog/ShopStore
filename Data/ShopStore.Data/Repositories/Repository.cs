@@ -50,5 +50,16 @@ namespace ShopStore.Data.Repositories
         {
             _context.SaveChanges();
         }
+
+        public void Reference<TProperty>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, TProperty>> expression)
+            where TProperty : class
+        {
+            _context.Entry(entity).Reference(expression).Load();
+        }
+
+        public void Collection<TProperty>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, IEnumerable<TProperty>>> expression) where TProperty : class
+        {
+            _context.Entry(entity).Collection(expression).Load();
+        }
     }
 }
