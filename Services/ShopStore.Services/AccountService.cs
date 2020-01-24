@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ShopStore.Common;
-using ShopStore.Data.Identity;
-using ShopStore.Services.Interfaces;
+using ShopStore.Data.Models.UserEntities;
+using ShopStore.Services.Data.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ShopStore.Services

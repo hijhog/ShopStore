@@ -7,8 +7,8 @@ using ShopStore.Data;
 using ShopStore.Web.Configurations;
 using AutoMapper;
 using ShopStore.Services.MapperConfiguration;
-using ShopStore.Data.Identity;
 using Microsoft.AspNetCore.Identity;
+using ShopStore.Data.Models.UserEntities;
 
 namespace ShopStore.Web
 {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopStore.Services.Interfaces
+namespace ShopStore.Services.Data.Interfaces
 {
-    public interface IAccountService
+    public interface IStoreService
     {
     }
 }

@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using ShopStore.Services.Models;
+using ShopStore.Services.Data.Models;
 using ShopStore.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ShopStore.Web.Configurations
 {

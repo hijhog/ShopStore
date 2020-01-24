@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopStore.Data.Entities
+namespace ShopStore.Data.Models.BusinessEntities
 {
     public class StoreProduct
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using ShopStore.Data.Entities;
+using ShopStore.Data.Models.BusinessEntities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopStore.Data.Identity
+namespace ShopStore.Data.Models.UserEntities
 {
     public class AppUser : IdentityUser<int>
     {

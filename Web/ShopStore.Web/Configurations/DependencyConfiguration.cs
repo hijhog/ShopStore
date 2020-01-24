@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using ShopStore.Data.Interfaces;
+using ShopStore.Data.Models.Interfaces;
 using ShopStore.Data.Repositories;
 using ShopStore.Services;
-using ShopStore.Services.Interfaces;
+using ShopStore.Services.Data.Interfaces;
 
 namespace ShopStore.Web.Configurations
 {

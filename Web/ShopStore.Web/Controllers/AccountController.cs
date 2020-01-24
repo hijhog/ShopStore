@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ShopStore.Services.Interfaces;
+using ShopStore.Services.Data.Interfaces;
+using System.Threading.Tasks;
 
 namespace ShopStore.Web.Controllers
 {

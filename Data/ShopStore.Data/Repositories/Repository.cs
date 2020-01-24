@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShopStore.Data.Interfaces;
+using ShopStore.Data.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

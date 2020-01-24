@@ -2,11 +2,8 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShopStore.Data.Configurations;
-using ShopStore.Data.Entities;
-using ShopStore.Data.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ShopStore.Data.Models.BusinessEntities;
+using ShopStore.Data.Models.UserEntities;
 
 namespace ShopStore.Data
 {

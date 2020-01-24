@@ -1,10 +1,10 @@
 ﻿using ShopStore.Common;
-using ShopStore.Services.Models;
+using ShopStore.Services.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopStore.Services.Interfaces
+namespace ShopStore.Services.Data.Interfaces
 {
     public interface ICategoryService
     {

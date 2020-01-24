@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShopStore.Common;
-using ShopStore.Services.Interfaces;
-using ShopStore.Services.Models;
+using ShopStore.Services.Data.Interfaces;
+using ShopStore.Services.Data.Models;
 using ShopStore.Web.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopStore.Web.Controllers
 {

@@ -1,9 +1,6 @@
-﻿using ShopStore.Data.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ShopStore.Data.Models.UserEntities;
 
-namespace ShopStore.Data.Entities
+namespace ShopStore.Data.Models.BusinessEntities
 {
     public class Order
     {

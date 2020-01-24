@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<ProductDTO>
-@using ShopStore.Services.Models
+@using ShopStore.Services.Data.Models
 @{
     var errorMessage = ViewBag.ErrorMessage;
 }
@@ -37,7 +37,7 @@
     }
     else
     {
-        <tr><td colspan="7">No Categories</td></tr>
+        <tr><td colspan="7">No Products</td></tr>
     }
 </table>
 

@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShopStore.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ShopStore.Data.Models.BusinessEntities;
 
 namespace ShopStore.Data.Configurations
 {

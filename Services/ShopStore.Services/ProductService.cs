@@ -1,14 +1,13 @@
-﻿using ShopStore.Data.Entities;
-using ShopStore.Data.Interfaces;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using ShopStore.Common;
+using ShopStore.Data.Models.BusinessEntities;
+using ShopStore.Data.Models.Interfaces;
+using ShopStore.Services.Data.Interfaces;
+using ShopStore.Services.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
-using ShopStore.Common;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using ShopStore.Services.Interfaces;
-using ShopStore.Services.Models;
 
 namespace ShopStore.Services
 {

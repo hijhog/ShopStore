@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ShopStore.Data.Entities
+namespace ShopStore.Web.Models
 {
-    public class BaseEntity
+    public class StoreVM
     {
         public int Id { get; set; }
         public string Name { get; set; }
