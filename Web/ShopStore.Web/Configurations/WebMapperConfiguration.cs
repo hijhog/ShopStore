@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ShopStore.Services.CategoryService.Models;
+using ShopStore.Services.ProductService.Models;
 using ShopStore.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ namespace ShopStore.Web.Configurations
         {
             CreateMap<CategoryDTO, CategoryVM>();
             CreateMap<CategoryVM, CategoryDTO>();
+
+            CreateMap<ProductDTO, ProductVM>();
+            CreateMap<ProductVM, ProductDTO>();
         }
     }
 }
