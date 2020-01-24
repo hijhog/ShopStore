@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using ShopStore.Common;
-using ShopStore.Services.CategoryService.Interfaces;
-using ShopStore.Services.CategoryService.Models;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using ShopStore.Data.Interfaces;
 using ShopStore.Data.Entities;
+using ShopStore.Services.Interfaces;
+using ShopStore.Services.Models;
 
-namespace ShopStore.Services.CategoryService
+namespace ShopStore.Services
 {
     public class CategoryService : ICategoryService
     {

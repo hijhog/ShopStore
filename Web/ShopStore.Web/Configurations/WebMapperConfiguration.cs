@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using ShopStore.Services.CategoryService.Models;
-using ShopStore.Services.ProductService.Models;
+using ShopStore.Services.Models;
 using ShopStore.Web.Models;
 using System;
 using System.Collections.Generic;

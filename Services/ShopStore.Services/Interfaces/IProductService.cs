@@ -1,10 +1,10 @@
 ﻿using ShopStore.Common;
-using ShopStore.Services.ProductService.Models;
+using ShopStore.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopStore.Services.ProductService.Interfaces
+namespace ShopStore.Services.Interfaces
 {
     public interface IProductService
     {

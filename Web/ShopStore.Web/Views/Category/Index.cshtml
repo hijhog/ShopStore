@@ -1,5 +1,5 @@
-﻿@using ShopStore.Services.CategoryService.Models
-@model IEnumerable<CategoryDTO>
+﻿@model IEnumerable<CategoryDTO>
+@using ShopStore.Services.Models
 @{
     ViewData["Title"] = "Index";
     string errorMessage = ViewBag.ErrorMessage;
@@ -20,7 +20,7 @@
     </tr>
     @if (Model.Any())
     {
-        @foreach(var cat in Model)
+        @foreach (var cat in Model)
         {
             <tr>
                 <td>@cat.Id</td>

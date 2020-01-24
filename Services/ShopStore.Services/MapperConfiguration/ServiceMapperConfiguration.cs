@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using ShopStore.Services.CategoryService.Models;
 using ShopStore.Data.Entities;
+using ShopStore.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ShopStore.Services.ProductService.Models;
 
 namespace ShopStore.Services.MapperConfiguration
 {

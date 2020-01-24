@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ShopStore.Common;
 using ShopStore.Data.Identity;
-using ShopStore.Services.AccountService.Interfaces;
+using ShopStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShopStore.Services.AccountService
+namespace ShopStore.Services
 {
     public class AccountService : IAccountService
     {

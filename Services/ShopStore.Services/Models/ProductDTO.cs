@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopStore.Services.ProductService.Models
+namespace ShopStore.Services.Models
 {
     public class ProductDTO
     {

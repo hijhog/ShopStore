@@ -1,16 +1,16 @@
-﻿using ShopStore.Services.ProductService.Interfaces;
-using ShopStore.Data.Entities;
+﻿using ShopStore.Data.Entities;
 using ShopStore.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
-using ShopStore.Services.ProductService.Models;
 using ShopStore.Common;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using ShopStore.Services.Interfaces;
+using ShopStore.Services.Models;
 
-namespace ShopStore.Services.ProjectService
+namespace ShopStore.Services
 {
     public class ProductService : IProductService
     {

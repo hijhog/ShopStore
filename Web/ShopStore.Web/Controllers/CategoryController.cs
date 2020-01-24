@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShopStore.Common;
-using ShopStore.Services.CategoryService.Interfaces;
-using ShopStore.Services.CategoryService.Models;
+using ShopStore.Services.Interfaces;
+using ShopStore.Services.Models;
 using ShopStore.Web.Models;
 
 namespace ShopStore.Web.Controllers

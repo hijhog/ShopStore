@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ShopStore.Services.AccountService.Interfaces;
+using ShopStore.Services.Interfaces;
 
 namespace ShopStore.Web.Controllers
 {
