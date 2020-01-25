@@ -63,6 +63,8 @@ namespace ShopStore.Web.Controllers
         {
             ProductDTO productDto = _productService.Get(id);
             ProductVM productVM = _mapper.Map<ProductVM>(productDto);
+            var categoriesDTO = _categoryService.GetAll();
+            ViewBag.Categories = categoriesDTO.Select(x => _mapper.Map<CategoryVM>(x));
             return View(nameof(GlobalConstants.Details), productVM);
         }
 

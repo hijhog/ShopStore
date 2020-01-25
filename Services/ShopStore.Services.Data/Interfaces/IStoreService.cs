@@ -10,5 +10,9 @@ namespace ShopStore.Services.Data.Interfaces
         IEnumerable<StoreDTO> GetAll();
         OperationResult Save(StoreDTO dto);
         OperationResult Remove(int id);
+
+        IEnumerable<StoreProductDTO> GetStoreProducts(int storeId);
+        OperationResult AddProduct(StoreProductDTO dto);
+        OperationResult RemoveProduct(int storeId, int prodId);
     }
 }

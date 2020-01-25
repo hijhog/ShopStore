@@ -25,7 +25,7 @@ namespace ShopStore.Services
 
         public CategoryDTO Get(int id)
         {
-            Category category = _unitOfWork.CategoryRepository.Get(id);
+            Category category = _unitOfWork.CategoryRepository.Get(new int[] { id });
             return _mapper.Map<CategoryDTO>(category);
         }
 
@@ -40,7 +40,7 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                _unitOfWork.CategoryRepository.Remove(id);
+                _unitOfWork.CategoryRepository.Remove(new int[] { id });
                 _unitOfWork.CategoryRepository.Save();
 
                 result.Successed = true;

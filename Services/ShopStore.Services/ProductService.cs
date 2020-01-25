@@ -25,7 +25,7 @@ namespace ShopStore.Services
 
         public ProductDTO Get(int id)
         {
-            Product product = _unitOfWork.ProductRepository.Get(id);
+            Product product = _unitOfWork.ProductRepository.Get(new int[] { id });
             _unitOfWork.ProductRepository.Reference(product, x => x.Category);
             return _mapper.Map<ProductDTO>(product);
         }
@@ -42,7 +42,7 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                _unitOfWork.ProductRepository.Remove(id);
+                _unitOfWork.ProductRepository.Remove(new int[] { id });
                 _unitOfWork.ProductRepository.Save();
 
                 result.Successed = true;

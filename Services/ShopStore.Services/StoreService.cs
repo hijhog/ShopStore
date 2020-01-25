@@ -77,5 +77,69 @@ namespace ShopStore.Services
             }
             return result;
         }
+
+        public IEnumerable<StoreProductDTO> GetStoreProducts(int storeId)
+        {
+            var storeProducts = from product in _unitOfWork.ProductRepository.GetAll()
+                                join category in _unitOfWork.CategoryRepository.GetAll()
+                                on product.CategoryId equals category.Id
+                                join sp in _unitOfWork.StoreProductRepository.GetAll()
+                                on product.Id equals sp.ProductId into g
+                                from storeProd in g.DefaultIfEmpty()
+                                select new StoreProductDTO
+                                {
+                                    StoreId = storeId,
+                                    ProductId = product.Id,
+                                    Name = product.Name,
+                                    Description = product.Description,
+                                    Price = product.Price,
+                                    Category = category.Name,
+                                    ProductCount = storeProd == null ? 0 : storeProd.ProductCount,
+                                    IsExistInStore = storeProd != null
+                                };
+            return storeProducts;
+        }
+
+        public OperationResult AddProduct(StoreProductDTO dto)
+        {
+            var result = new OperationResult();
+            try
+            {
+                StoreProduct storeProduct = _unitOfWork.StoreProductRepository.Get(dto.ProductId, dto.StoreId);
+                if(storeProduct == null)
+                {
+                    storeProduct = _mapper.Map<StoreProduct>(dto);
+                    _unitOfWork.StoreProductRepository.Insert(storeProduct);
+                }
+                else
+                {
+                    _mapper.Map(dto, storeProduct);
+                    _unitOfWork.StoreProductRepository.Update(storeProduct);
+                }
+                _unitOfWork.StoreProductRepository.Save();
+                result.Successed = true;
+            }
+            catch(Exception ex)
+            {
+                result.Description = ex.Message;
+            }
+            return result;
+        }
+
+        public OperationResult RemoveProduct(int storeId, int prodId)
+        {
+            var result = new OperationResult();
+            try
+            {
+                _unitOfWork.StoreProductRepository.Remove(storeId, prodId);
+                _unitOfWork.StoreProductRepository.Save();
+                result.Successed = true;
+            }
+            catch(Exception ex)
+            {
+                result.Description = ex.Message;
+            }
+            return result;
+        }
     }
 }

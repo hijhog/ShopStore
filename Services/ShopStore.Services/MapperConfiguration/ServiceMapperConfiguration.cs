@@ -21,6 +21,9 @@ namespace ShopStore.Services.MapperConfiguration
 
             CreateMap<Store, StoreDTO>();
             CreateMap<StoreDTO, Store>();
+
+            CreateMap<StoreProduct, StoreProductDTO>();
+            CreateMap<StoreProductDTO, StoreProduct>();
         }
     }
 }

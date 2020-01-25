@@ -4,18 +4,22 @@ using ShopStore.Common;
 using ShopStore.Services.Data.Interfaces;
 using ShopStore.Services.Data.Models;
 using ShopStore.Web.Models;
+using System.Linq;
 
 namespace ShopStore.Web.Controllers
 {
     public class StoreController : Controller
     {
         private readonly IStoreService _storeService;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
         public StoreController(
             IStoreService storeService,
+            IProductService productService,
             IMapper mapper)
         {
             _storeService = storeService;
+            _productService = productService;
             _mapper = mapper;
         }
         public IActionResult Index()
@@ -68,6 +72,36 @@ namespace ShopStore.Web.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult ProductList(int storeId)
+        {
+            ViewBag.StoreId = storeId;
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetStoreProducts()
+        {
+            var storeId = 1;
+            var storeProductDTOs = _storeService.GetStoreProducts(storeId);
+            var storeProductVMs = storeProductDTOs.Select(x => _mapper.Map<StoreProductVM>(x));
+            return Json(new { data = storeProductVMs });
+        }
+
+        [HttpPost]
+        public JsonResult AddProduct(StoreProductVM modelVM)
+        {
+            var storeProductDTO = _mapper.Map<StoreProductDTO>(modelVM);
+            var result = _storeService.AddProduct(storeProductDTO);
+            return Json(new { result.Successed, result.Description });
+        }
+
+        [HttpGet]
+        public JsonResult RemoveProduct(int storeId, int prodId)
+        {
+            var result = _storeService.RemoveProduct(storeId, prodId);
+            return Json(new { result.Successed, result.Description });
         }
     }
 }

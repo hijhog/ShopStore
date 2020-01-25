@@ -10,7 +10,7 @@ namespace ShopStore.Web.Configurations
     {
         public static void Configure(IServiceCollection services)
         {
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IStoreService, StoreService>();
