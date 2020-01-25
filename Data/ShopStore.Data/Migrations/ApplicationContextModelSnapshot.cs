@@ -157,23 +157,6 @@ namespace ShopStore.Data.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Pack", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Count");
-
-                    b.Property<int>("ProductId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Packs");
-                });
-
             modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -208,17 +191,19 @@ namespace ShopStore.Data.Migrations
                     b.ToTable("Stores");
                 });
 
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.StorePack", b =>
+            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.StoreProduct", b =>
                 {
-                    b.Property<int>("PackId");
+                    b.Property<int>("ProductId");
 
                     b.Property<int>("StoreId");
 
-                    b.HasKey("PackId", "StoreId");
+                    b.Property<int>("ProductCount");
+
+                    b.HasKey("ProductId", "StoreId");
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("StorePacks");
+                    b.ToTable("StoreProducts");
                 });
 
             modelBuilder.Entity("ShopStore.Data.Models.UserEntities.AppUser", b =>
@@ -331,14 +316,6 @@ namespace ShopStore.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Pack", b =>
-                {
-                    b.HasOne("ShopStore.Data.Models.BusinessEntities.Product", "Product")
-                        .WithMany("Packs")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Product", b =>
                 {
                     b.HasOne("ShopStore.Data.Models.BusinessEntities.Category", "Category")
@@ -347,15 +324,15 @@ namespace ShopStore.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.StorePack", b =>
+            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.StoreProduct", b =>
                 {
-                    b.HasOne("ShopStore.Data.Models.BusinessEntities.Pack", "Pack")
-                        .WithMany("StorePacks")
-                        .HasForeignKey("PackId")
+                    b.HasOne("ShopStore.Data.Models.BusinessEntities.Product", "Product")
+                        .WithMany("StoreProducts")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ShopStore.Data.Models.BusinessEntities.Store", "Store")
-                        .WithMany("StorePacks")
+                        .WithMany("StoreProducts")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

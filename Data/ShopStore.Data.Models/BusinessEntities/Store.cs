@@ -6,6 +6,6 @@ namespace ShopStore.Data.Models.BusinessEntities
 {
     public class Store : BaseEntity
     {
-        public ICollection<StorePack> StorePacks { get; set; }
+        public ICollection<StoreProduct> StoreProducts { get; set; }
     }
 }

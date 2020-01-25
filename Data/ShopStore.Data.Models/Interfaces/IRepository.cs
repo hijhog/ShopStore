@@ -8,11 +8,11 @@ namespace ShopStore.Data.Models.Interfaces
 {
     public interface IRepository<TEntity> where TEntity: class
     {
-        TEntity Get(int id);
+        TEntity Get(params object[] id);
         IQueryable<TEntity> GetAll();
         void Insert(TEntity entity);
         void Update(TEntity entity);
-        void Remove(int id);
+        void Remove(params object[] id);
         void Save();
         void Reference<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression) where TProperty : class;
         void Collection<TProperty>(TEntity entity, Expression<Func<TEntity, IEnumerable<TProperty>>> expression) where TProperty : class;

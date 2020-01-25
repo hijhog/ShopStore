@@ -19,7 +19,7 @@ namespace ShopStore.Data.Repositories
             _table = context.Set<TEntity>();
         }
 
-        public TEntity Get(int id)
+        public TEntity Get(params object[] id)
         {
             return _table.Find(id);
         }
@@ -40,7 +40,7 @@ namespace ShopStore.Data.Repositories
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Remove(int id)
+        public void Remove(params object[] id)
         {
             TEntity entity = _table.Find(id);
             _table.Remove(entity);

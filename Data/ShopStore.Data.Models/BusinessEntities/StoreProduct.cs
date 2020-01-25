@@ -4,13 +4,14 @@ using System.Text;
 
 namespace ShopStore.Data.Models.BusinessEntities
 {
-    public class Pack
+    public class StoreProduct
     {
-        public int Id { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
-        public int Count { get; set; }
 
-        public ICollection<StorePack> StorePacks { get; set; }
+        public int StoreId { get; set; }
+        public Store Store { get; set; }
+
+        public int ProductCount { get; set; }
     }
 }
