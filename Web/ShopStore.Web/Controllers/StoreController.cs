@@ -81,9 +81,8 @@ namespace ShopStore.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetStoreProducts()
+        public IActionResult GetStoreProducts(int storeId)
         {
-            var storeId = 1;
             var storeProductDTOs = _storeService.GetStoreProducts(storeId);
             var storeProductVMs = storeProductDTOs.Select(x => _mapper.Map<StoreProductVM>(x));
             return Json(new { data = storeProductVMs });

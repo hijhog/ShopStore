@@ -83,7 +83,9 @@ namespace ShopStore.Services
             var storeProducts = from product in _unitOfWork.ProductRepository.GetAll()
                                 join category in _unitOfWork.CategoryRepository.GetAll()
                                 on product.CategoryId equals category.Id
-                                join sp in _unitOfWork.StoreProductRepository.GetAll()
+                                join sp in (from storeProd in _unitOfWork.StoreProductRepository.GetAll()
+                                            where storeProd.StoreId == storeId
+                                            select storeProd)
                                 on product.Id equals sp.ProductId into g
                                 from storeProd in g.DefaultIfEmpty()
                                 select new StoreProductDTO

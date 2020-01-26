@@ -2,7 +2,7 @@
     table = $('#table').DataTable(
         {
             ajax: {
-                url: "/Store/GetStoreProducts",
+                url: "/Store/GetStoreProducts?storeId="+storeId,
                 type: "GET",
                 dataType: "json"
             },
@@ -33,7 +33,7 @@ function addProduct(data) {
     $.ajax({
         url: '/Store/AddProduct',
         type: 'POST',
-        data: 'storeId=' + data.storeId + '&productId=' + data.productId + '&productCount=' + $('#ProductCount').val(),
+        data: 'storeId=' + storeId + '&productId=' + data.productId + '&productCount=' + $('#ProductCount').val(),
         success: function (result) {
             if (result.successed) {
                 toastr.success('The product was added to this store');
@@ -64,7 +64,7 @@ function removeProduct(self) {
     $.ajax({
         url: '/Store/RemoveProduct',
         type: 'GET',
-        data: 'storeId=' + data.storeId + '&prodId=' + data.productId,
+        data: 'storeId=' + storeId + '&prodId=' + data.productId,
         success: function (result) {
             if (result.successed) {
                 toastr.success('The product was deleted from this store');
