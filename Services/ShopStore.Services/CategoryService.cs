@@ -23,9 +23,9 @@ namespace ShopStore.Services
             _mapper = mapper;
         }
 
-        public CategoryDTO Get(int id)
+        public CategoryDTO Get(Guid id)
         {
-            Category category = _unitOfWork.CategoryRepository.Get(new int[] { id });
+            Category category = _unitOfWork.CategoryRepository.Get(new Guid[] { id });
             return _mapper.Map<CategoryDTO>(category);
         }
 
@@ -35,13 +35,13 @@ namespace ShopStore.Services
                 _mapper.Map<CategoryDTO>(x));
         }
 
-        public OperationResult Remove(int id)
+        public OperationResult Remove(Guid id)
         {
             var result = new OperationResult();
             try
             {
-                _unitOfWork.CategoryRepository.Remove(new int[] { id });
-                _unitOfWork.CategoryRepository.Save();
+                _unitOfWork.CategoryRepository.Remove(new Guid[] { id });
+                _unitOfWork.Save();
 
                 result.Successed = true;
             }
@@ -69,7 +69,7 @@ namespace ShopStore.Services
                     _unitOfWork.CategoryRepository.Update(category);
                 }
 
-                _unitOfWork.CategoryRepository.Save();
+                _unitOfWork.Save();
                 result.Successed = true;
             }
             catch(Exception ex)

@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopStore.Common;
 using ShopStore.Services.Data.Interfaces;
 using ShopStore.Services.Data.Models;
 using ShopStore.Web.Areas.Admin.Models;
+using System;
 using System.Linq;
 
 namespace ShopStore.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "ManagementAccess")]
     public class StoreController : Controller
     {
         private readonly IStoreService _storeService;
@@ -56,7 +59,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(Guid id)
         {
             StoreDTO storeDto = _storeService.Get(id);
             StoreVM categoryVM = _mapper.Map<StoreVM>(storeDto);
@@ -64,7 +67,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Remove(int id)
+        public IActionResult Remove(Guid id)
         {
             var result = _storeService.Remove(id);
             if (!result.Successed)
@@ -75,14 +78,14 @@ namespace ShopStore.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult ProductList(int storeId)
+        public IActionResult ProductList(Guid storeId)
         {
             ViewBag.StoreId = storeId;
             return View();
         }
 
         [HttpGet]
-        public IActionResult GetStoreProducts(int storeId)
+        public IActionResult GetStoreProducts(Guid storeId)
         {
             var storeProductDTOs = _storeService.GetStoreProducts(storeId);
             var storeProductVMs = storeProductDTOs.Select(x => _mapper.Map<StoreProductVM>(x));
@@ -98,7 +101,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public JsonResult RemoveProduct(int productId, int storeId)
+        public JsonResult RemoveProduct(Guid productId, Guid storeId)
         {
             var result = _storeService.RemoveProduct(productId, storeId);
             return Json(new { result.Successed, result.Description });

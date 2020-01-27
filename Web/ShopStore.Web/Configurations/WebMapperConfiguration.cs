@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ShopStore.Services.Data.Models;
 using ShopStore.Web.Areas.Admin.Models;
+using ShopStore.Web.Models;
 
 namespace ShopStore.Web.Configurations
 {
@@ -19,6 +20,9 @@ namespace ShopStore.Web.Configurations
 
             CreateMap<StoreProductDTO, StoreProductVM>();
             CreateMap<StoreProductVM, StoreProductDTO>();
+
+            CreateMap<UserDTO, UserVM>();
+            CreateMap<UserVM, UserDTO>();
         }
     }
 }

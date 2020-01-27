@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopStore.Data.Models.BusinessEntities
+namespace ShopStore.Services.Data.Models
 {
-    public class BaseEntity
+    public class RoleDTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

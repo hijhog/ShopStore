@@ -8,7 +8,7 @@ namespace ShopStore.Data.Models.BusinessEntities
     {
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public Category Category { get; set; }
 
         public ICollection<StoreProduct> StoreProducts { get; set; }

@@ -9,6 +9,8 @@ using AutoMapper;
 using ShopStore.Services.MapperConfiguration;
 using Microsoft.AspNetCore.Identity;
 using ShopStore.Data.Models.UserEntities;
+using ShopStore.Common;
+using ShopStore.Data.Seeding;
 
 namespace ShopStore.Web
 {
@@ -26,8 +28,15 @@ namespace ShopStore.Web
             services.AddDbContext<ApplicationContext>(opt => 
                 opt.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
-            services.AddIdentity<AppUser, IdentityRole<int>>()
+            services.AddIdentity<AppUser, Role>()
                 .AddEntityFrameworkStores<ApplicationContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ManagementAccess", policy => policy.RequireRole(
+                    GlobalConstants.Admin,
+                    GlobalConstants.Operator));
+            });
 
             services.ConfigureApplicationCookie(options =>
                 {
@@ -48,6 +57,18 @@ namespace ShopStore.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                using (var serviceScope = app.ApplicationServices.CreateScope())
+                {
+                    var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationContext>();
+
+                    if (env.IsDevelopment())
+                    {
+                        dbContext.Database.Migrate();
+                    }
+
+                    new UserSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+                }
             }
             else
             {
@@ -59,6 +80,7 @@ namespace ShopStore.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

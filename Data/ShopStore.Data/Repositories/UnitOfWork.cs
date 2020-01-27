@@ -16,6 +16,7 @@ namespace ShopStore.Data.Repositories
         private readonly IRepository<Order> _orderRepository = null;
         private readonly IRepository<StoreProduct> _storeProductRepository = null;
         private readonly IRepository<AppUser> _userRepository = null;
+        private readonly IUserRoleRepository _userRoleRepository = null;
         public UnitOfWork(ApplicationContext context)
         {
             _context = context;
@@ -46,9 +47,19 @@ namespace ShopStore.Data.Repositories
             get { return _storeProductRepository ?? new Repository<StoreProduct>(_context); }
         }
 
+        public IUserRoleRepository UserRoleRepository
+        {
+            get { return _userRoleRepository ?? new UserRoleRepository(_context); }
+        }
+
         public IRepository<AppUser> UserRepository
         {
             get { return _userRepository ?? new Repository<AppUser>(_context); }
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
         }
 
         private bool _disposed = false;

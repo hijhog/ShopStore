@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopStore.Common;
 using ShopStore.Services.Data.Interfaces;
 using ShopStore.Services.Data.Models;
 using ShopStore.Web.Areas.Admin.Models;
+using System;
 using System.Collections.Generic;
 
 namespace ShopStore.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "ManagementAccess")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -53,7 +56,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(Guid id)
         {
             CategoryDTO categoryDto = _categoryService.Get(id);
             CategoryVM categoryVM = _mapper.Map<CategoryVM>(categoryDto);
@@ -61,7 +64,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Remove(int id)
+        public IActionResult Remove(Guid id)
         {
             var result = _categoryService.Remove(id);
             if (!result.Successed)

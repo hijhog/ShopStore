@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ShopStore.Data.Models.BusinessEntities;
+using ShopStore.Data.Models.UserEntities;
 using ShopStore.Services.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,12 @@ namespace ShopStore.Services.MapperConfiguration
 
             CreateMap<StoreProduct, StoreProductDTO>();
             CreateMap<StoreProductDTO, StoreProduct>();
+
+            CreateMap<AppUser, UserDTO>();
+            CreateMap<UserDTO, AppUser>();
+
+            CreateMap<Role, RoleDTO>();
+            CreateMap<RoleDTO, Role>();
         }
     }
 }

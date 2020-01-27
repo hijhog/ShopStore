@@ -46,11 +46,6 @@ namespace ShopStore.Data.Repositories
             _table.Remove(entity);
         }
 
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
-
         public void Reference<TProperty>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, TProperty>> expression)
             where TProperty : class
         {

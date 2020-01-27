@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using ShopStore.Data.Configurations;
 using ShopStore.Data.Models.BusinessEntities;
 using ShopStore.Data.Models.UserEntities;
+using System;
 
 namespace ShopStore.Data
 {
-    public class ApplicationContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
+    public class ApplicationContext : IdentityDbContext<AppUser, Role, Guid>
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             :base(options)

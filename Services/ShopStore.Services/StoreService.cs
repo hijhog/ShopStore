@@ -22,7 +22,7 @@ namespace ShopStore.Services
             _mapper = mapper;
         }
 
-        public StoreDTO Get(int id)
+        public StoreDTO Get(Guid id)
         {
             Store store = _unitOfWork.StoreRepository.Get(id);
             return _mapper.Map<StoreDTO>(store);
@@ -34,13 +34,13 @@ namespace ShopStore.Services
                 _mapper.Map<StoreDTO>(x));
         }
 
-        public OperationResult Remove(int id)
+        public OperationResult Remove(Guid id)
         {
             var result = new OperationResult();
             try
             {
                 _unitOfWork.StoreRepository.Remove(id);
-                _unitOfWork.StoreRepository.Save();
+                _unitOfWork.Save();
 
                 result.Successed = true;
             }
@@ -68,7 +68,7 @@ namespace ShopStore.Services
                     _unitOfWork.StoreRepository.Update(store);
                 }
 
-                _unitOfWork.StoreRepository.Save();
+                _unitOfWork.Save();
                 result.Successed = true;
             }
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace ShopStore.Services
             return result;
         }
 
-        public IEnumerable<StoreProductDTO> GetStoreProducts(int storeId)
+        public IEnumerable<StoreProductDTO> GetStoreProducts(Guid storeId)
         {
             var storeProducts = from product in _unitOfWork.ProductRepository.GetAll()
                                 join category in _unitOfWork.CategoryRepository.GetAll()
@@ -118,7 +118,7 @@ namespace ShopStore.Services
                     _mapper.Map(dto, storeProduct);
                     _unitOfWork.StoreProductRepository.Update(storeProduct);
                 }
-                _unitOfWork.StoreProductRepository.Save();
+                _unitOfWork.Save();
                 result.Successed = true;
             }
             catch(Exception ex)
@@ -128,13 +128,13 @@ namespace ShopStore.Services
             return result;
         }
 
-        public OperationResult RemoveProduct(int productId, int storeId)
+        public OperationResult RemoveProduct(Guid productId, Guid storeId)
         {
             var result = new OperationResult();
             try
             {
                 _unitOfWork.StoreProductRepository.Remove(productId, storeId);
-                _unitOfWork.StoreProductRepository.Save();
+                _unitOfWork.Save();
                 result.Successed = true;
             }
             catch(Exception ex)

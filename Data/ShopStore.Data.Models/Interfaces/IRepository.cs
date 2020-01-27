@@ -13,7 +13,6 @@ namespace ShopStore.Data.Models.Interfaces
         void Insert(TEntity entity);
         void Update(TEntity entity);
         void Remove(params object[] id);
-        void Save();
         void Reference<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression) where TProperty : class;
         void Collection<TProperty>(TEntity entity, Expression<Func<TEntity, IEnumerable<TProperty>>> expression) where TProperty : class;
     }

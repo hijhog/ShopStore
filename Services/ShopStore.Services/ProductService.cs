@@ -23,9 +23,9 @@ namespace ShopStore.Services
             _mapper = mapper;
         }
 
-        public ProductDTO Get(int id)
+        public ProductDTO Get(Guid id)
         {
-            Product product = _unitOfWork.ProductRepository.Get(new int[] { id });
+            Product product = _unitOfWork.ProductRepository.Get(new Guid[] { id });
             _unitOfWork.ProductRepository.Reference(product, x => x.Category);
             return _mapper.Map<ProductDTO>(product);
         }
@@ -37,13 +37,13 @@ namespace ShopStore.Services
                 _mapper.Map<ProductDTO>(x));
         }
 
-        public OperationResult Remove(int id)
+        public OperationResult Remove(Guid id)
         {
             var result = new OperationResult();
             try
             {
-                _unitOfWork.ProductRepository.Remove(new int[] { id });
-                _unitOfWork.ProductRepository.Save();
+                _unitOfWork.ProductRepository.Remove(new Guid[] { id });
+                _unitOfWork.Save();
 
                 result.Successed = true;
             }
@@ -71,7 +71,7 @@ namespace ShopStore.Services
                     _unitOfWork.ProductRepository.Update(product);
                 }
 
-                _unitOfWork.ProductRepository.Save();
+                _unitOfWork.Save();
                 result.Successed = true;
             }
             catch (Exception ex)

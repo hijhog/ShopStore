@@ -8,9 +8,9 @@ namespace ShopStore.Services.Data.Interfaces
 {
     public interface IProductService
     {
-        ProductDTO Get(int id);
+        ProductDTO Get(Guid id);
         IEnumerable<ProductDTO> GetAll();
         OperationResult Save(ProductDTO dto);
-        OperationResult Remove(int id);
+        OperationResult Remove(Guid id);
     }
 }

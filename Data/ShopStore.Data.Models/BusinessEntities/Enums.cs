@@ -10,4 +10,17 @@ namespace ShopStore.Data.Models.BusinessEntities
         Completed = 2,
         Rejected = 3
     }
+
+    public enum Gender
+    {
+        Male = 1,
+        Female = 2
+    }
+
+    public enum RoleEnum
+    {
+        Admin = 1,
+        Operator = 2,
+        User = 3
+    }
 }

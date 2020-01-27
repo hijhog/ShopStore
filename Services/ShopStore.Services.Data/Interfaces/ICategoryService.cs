@@ -8,9 +8,9 @@ namespace ShopStore.Services.Data.Interfaces
 {
     public interface ICategoryService
     {
-        CategoryDTO Get(int id);
+        CategoryDTO Get(Guid id);
         IEnumerable<CategoryDTO> GetAll();
         OperationResult Save(CategoryDTO dto);
-        OperationResult Remove(int id);
+        OperationResult Remove(Guid id);
     }
 }

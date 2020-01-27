@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using ShopStore.Common;
 
 namespace ShopStore.Data.Migrations
 {
@@ -12,8 +14,7 @@ namespace ShopStore.Data.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -27,8 +28,7 @@ namespace ShopStore.Data.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -42,7 +42,12 @@ namespace ShopStore.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    LastName = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    Patronymic = table.Column<string>(nullable: true),
+                    BirthDate = table.Column<DateTime>(nullable: false),
+                    Gender = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,8 +58,7 @@ namespace ShopStore.Data.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 30, nullable: false)
                 },
                 constraints: table =>
@@ -66,8 +70,7 @@ namespace ShopStore.Data.Migrations
                 name: "Stores",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -81,7 +84,7 @@ namespace ShopStore.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RoleId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -102,7 +105,7 @@ namespace ShopStore.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -124,7 +127,7 @@ namespace ShopStore.Data.Migrations
                     LoginProvider = table.Column<string>(nullable: false),
                     ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -141,8 +144,8 @@ namespace ShopStore.Data.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -165,7 +168,7 @@ namespace ShopStore.Data.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
                     LoginProvider = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
@@ -185,12 +188,11 @@ namespace ShopStore.Data.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
+                    CategoryId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -207,8 +209,8 @@ namespace ShopStore.Data.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -232,8 +234,8 @@ namespace ShopStore.Data.Migrations
                 name: "StoreProducts",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(nullable: false),
-                    StoreId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    StoreId = table.Column<Guid>(nullable: false),
                     ProductCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -306,6 +308,8 @@ namespace ShopStore.Data.Migrations
                 name: "IX_StoreProducts_StoreId",
                 table: "StoreProducts",
                 column: "StoreId");
+
+            FillDefaultRoles(migrationBuilder);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -345,6 +349,28 @@ namespace ShopStore.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+        }
+
+        private void FillDefaultRoles(MigrationBuilder migrationBuilder)
+        {
+            List<string> roles = new List<string>
+            {
+                 GlobalConstants.Admin, GlobalConstants.Operator, GlobalConstants.User
+            };
+
+            foreach (var role in roles)
+            {
+                migrationBuilder.InsertData(
+                    "AspNetRoles",
+                    new[]
+                    {
+                        "Id", "Name", "NormalizedName", "ConcurrencyStamp"
+                    },
+                    new object[]
+                    {
+                        Guid.NewGuid(), role, role.ToUpper(), Guid.NewGuid().ToString()
+                    });
+            }
         }
     }
 }
