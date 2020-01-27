@@ -128,12 +128,12 @@ namespace ShopStore.Services
             return result;
         }
 
-        public OperationResult RemoveProduct(int storeId, int prodId)
+        public OperationResult RemoveProduct(int productId, int storeId)
         {
             var result = new OperationResult();
             try
             {
-                _unitOfWork.StoreProductRepository.Remove(storeId, prodId);
+                _unitOfWork.StoreProductRepository.Remove(productId, storeId);
                 _unitOfWork.StoreProductRepository.Save();
                 result.Successed = true;
             }

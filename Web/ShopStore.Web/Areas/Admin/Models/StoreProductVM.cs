@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShopStore.Web.Models
+namespace ShopStore.Web.Areas.Admin.Models
 {
     public class StoreProductVM
     {

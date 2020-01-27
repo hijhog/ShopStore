@@ -63,8 +63,11 @@ namespace ShopStore.Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "myArea",
+                    template: "{area:exists}/{controller=Store}/{action=Index}/{id?}");
+                routes.MapRoute(
                     name: "default",
-                    template: "{controller=Store}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

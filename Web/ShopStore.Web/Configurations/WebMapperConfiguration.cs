@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ShopStore.Services.Data.Models;
-using ShopStore.Web.Models;
+using ShopStore.Web.Areas.Admin.Models;
 
 namespace ShopStore.Web.Configurations
 {

@@ -73,3 +73,7 @@ body {
 .custom_button{
     cursor: pointer;
 }
+
+.red_row {
+    background-color: #ff6a006e !important;
+}

@@ -2,7 +2,7 @@
     table = $('#table').DataTable(
         {
             ajax: {
-                url: "/Store/GetStoreProducts?storeId="+storeId,
+                url: "GetStoreProducts?storeId="+window.storeId,
                 type: "GET",
                 dataType: "json"
             },
@@ -24,14 +24,20 @@
             ],
             columnDefs: [
                 { "orderable": false, targets: [6, 7] }
-            ]
+            ],
+            createdRow: function (row, data, dataIndex) {
+                console.log(data);
+                if (data.productCount == 0) {
+                    $(row).addClass('red_row');
+                }
+            }
         }
     );
 });
 
 function addProduct(data) {
     $.ajax({
-        url: '/Store/AddProduct',
+        url: 'AddProduct',
         type: 'POST',
         data: 'storeId=' + storeId + '&productId=' + data.productId + '&productCount=' + $('#ProductCount').val(),
         success: function (result) {
@@ -62,9 +68,9 @@ function openProduct(self) {
 function removeProduct(self) {
     var data = table.row($(self).parents('tr')).data();
     $.ajax({
-        url: '/Store/RemoveProduct',
+        url: 'RemoveProduct',
         type: 'GET',
-        data: 'storeId=' + storeId + '&prodId=' + data.productId,
+        data: 'productId=' + data.productId+'&storeId=' + window.storeId,
         success: function (result) {
             if (result.successed) {
                 toastr.success('The product was deleted from this store');

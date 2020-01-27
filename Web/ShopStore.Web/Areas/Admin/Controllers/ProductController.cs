@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using ShopStore.Common;
 using ShopStore.Services.Data.Interfaces;
 using ShopStore.Services.Data.Models;
-using ShopStore.Web.Models;
+using ShopStore.Web.Areas.Admin.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ShopStore.Web.Controllers
+namespace ShopStore.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;

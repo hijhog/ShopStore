@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using ShopStore.Common;
 using ShopStore.Services.Data.Interfaces;
 using ShopStore.Services.Data.Models;
-using ShopStore.Web.Models;
+using ShopStore.Web.Areas.Admin.Models;
 using System.Collections.Generic;
 
-namespace ShopStore.Web.Controllers
+namespace ShopStore.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
