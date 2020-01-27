@@ -1,0 +1,33 @@
+﻿<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shop Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item" style="display:flex">
+                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Store" asp-action="Index">Stores</a>
+                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="Index">Products</a>
+                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Category" asp-action="Index">Categories</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item flex-grow-0">
+                        <a class="nav-link text-dark" href="#">Hello, @(this.User.Identity.Name)!</a>
+                    </li>
+                    <li class="nav-item">
+                        <form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Log Out</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -26,7 +26,6 @@
                 { "orderable": false, targets: [6, 7] }
             ],
             createdRow: function (row, data, dataIndex) {
-                console.log(data);
                 if (data.productCount == 0) {
                     $(row).addClass('red_row');
                 }
@@ -63,6 +62,7 @@ function openProduct(self) {
     $('#prod_desc').html(product.description);
     $('#prod_category').html(product.category);
     $('#prod_price').html('$' + product.price);
+    $('#ProductCount').val(product.productCount);
 };
 
 function removeProduct(self) {

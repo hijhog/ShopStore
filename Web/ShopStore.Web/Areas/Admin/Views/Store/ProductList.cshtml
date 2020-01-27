@@ -1,6 +1,6 @@
 ﻿
 @{
-    int storeId = (int)ViewBag.StoreId;
+    string storeId = ((Guid)ViewBag.StoreId).ToString();
 }
 <table id="table">
     <thead>
@@ -76,6 +76,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 <script>
-    window.storeId = @storeId;
+    window.storeId = '@storeId';
 </script>
 <script src="~/js/Admin/Store/ProductList.js"></script>
