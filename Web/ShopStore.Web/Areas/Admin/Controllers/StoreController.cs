@@ -33,6 +33,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Create()
         {
             var storeVM = new StoreVM();
@@ -40,6 +41,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Save(StoreVM modelVM)
         {
             if (!ModelState.IsValid)
@@ -59,6 +61,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Edit(Guid id)
         {
             StoreDTO storeDto = _storeService.Get(id);
@@ -67,6 +70,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Remove(Guid id)
         {
             var result = _storeService.Remove(id);

@@ -35,6 +35,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Create()
         {
             var product = new ProductVM();
@@ -44,6 +45,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Save(ProductVM modelVM)
         {
             if (!ModelState.IsValid)
@@ -63,6 +65,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Edit(Guid id)
         {
             ProductDTO productDto = _productService.Get(id);
@@ -73,6 +76,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Remove(Guid id)
         {
             var result = _categoryService.Remove(id);

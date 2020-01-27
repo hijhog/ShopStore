@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<ProductDTO>
 @using ShopStore.Services.Data.Models
+@using ShopStore.Common
 @{
     var errorMessage = ViewBag.ErrorMessage;
 }
@@ -28,10 +29,18 @@
                 <td>@prod.Id</td>
                 <td>@prod.Name</td>
                 <td>@prod.Description</td>
-                <td>@prod.Price.ToString("C")</td>
+                <td>$ @prod.Price</td>
                 <td>@prod.Category</td>
-                <td><a asp-action="Edit" asp-route-id="@prod.Id">Edit</a></td>
-                <td><a asp-action="Remove" asp-route-id="@prod.Id">Remove</a></td>
+                @if (User.IsInRole(GlobalConstants.Admin))
+                {
+                    <td><a asp-action="Edit" asp-route-id="@prod.Id">Edit</a></td>
+                    <td><a asp-action="Remove" asp-route-id="@prod.Id">Remove</a></td>
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                }
             </tr>
         }
     }

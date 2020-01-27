@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<StoreDTO>
 @using ShopStore.Services.Data.Models
+@using ShopStore.Common
 @{
     ViewData["Title"] = "Index";
     string errorMessage = ViewBag.ErrorMessage;
@@ -27,8 +28,16 @@
                 <td>@store.Id</td>
                 <td>@store.Name</td>
                 <td><a asp-action="ProductList" asp-route-storeId="@store.Id">Add Products</a></td>
-                <td><a asp-action="Edit" asp-route-id="@store.Id">Edit</a></td>
-                <td><a asp-action="Remove" asp-route-id="@store.Id">Remove</a></td>
+                @if (User.IsInRole(GlobalConstants.Admin))
+                {
+                    <td><a asp-action="Edit" asp-route-id="@store.Id">Edit</a></td>
+                    <td><a asp-action="Remove" asp-route-id="@store.Id">Remove</a></td>
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                }
             </tr>
         }
     }

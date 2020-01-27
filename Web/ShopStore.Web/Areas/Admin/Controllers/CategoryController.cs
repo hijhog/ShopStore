@@ -30,6 +30,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Create()
         {
             var categoryVM = new CategoryVM();
@@ -56,6 +57,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Edit(Guid id)
         {
             CategoryDTO categoryDto = _categoryService.Get(id);
@@ -64,6 +66,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Remove(Guid id)
         {
             var result = _categoryService.Remove(id);
