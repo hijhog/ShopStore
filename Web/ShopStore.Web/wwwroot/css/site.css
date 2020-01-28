@@ -77,3 +77,8 @@ body {
 .red_row {
     background-color: #ff6a006e !important;
 }
+
+.cropped {
+    height: 200px; /* height of container */
+    object-fit: cover;
+}

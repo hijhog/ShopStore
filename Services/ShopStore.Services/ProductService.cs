@@ -80,5 +80,20 @@ namespace ShopStore.Services
             }
             return result;
         }
+
+        public IEnumerable<ProductDTO> GetProductsByCategory(Guid categoryId)
+        {
+            IQueryable<Product> products;
+            if (categoryId.Equals(Guid.Empty))
+            {
+                products = _unitOfWork.ProductRepository.GetAll();
+            }
+            else
+            {
+                products = _unitOfWork.ProductRepository.GetAll().Where(x => x.CategoryId == categoryId);
+            }
+
+            return products.Select(x => _mapper.Map<ProductDTO>(x));            
+        }
     }
 }

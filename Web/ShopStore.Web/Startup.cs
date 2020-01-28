@@ -45,8 +45,10 @@ namespace ShopStore.Web
                     options.AccessDeniedPath = "/Account/AccessDenied";
                 });
 
-            services.AddAutoMapper(typeof(WebMapperConfiguration), typeof(ServiceMapperConfiguration));
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
+            services.AddAutoMapper(typeof(WebMapperConfiguration), typeof(ServiceMapperConfiguration));
             DependencyConfiguration.Configure(services);
 
             services.AddMvc();

@@ -4,16 +4,43 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShopStore.Services.Data.Interfaces;
 
 namespace ShopStore.Web.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
+        public HomeController(
+            IProductService productService,
+            ICategoryService categoryService)
+        {
+            _productService = productService;
+            _categoryService = categoryService;
+        }
+
         [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetProductsByCategory(Guid categoryId)
+        {
+            var products = _productService.GetProductsByCategory(categoryId).ToList();
+            return Json(new { products });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetCategories()
+        {
+            var categories = _categoryService.GetAll();
+            return Json(new { categories });
         }
     }
 }

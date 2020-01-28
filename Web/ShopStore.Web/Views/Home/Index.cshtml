@@ -1,4 +1,22 @@
 ﻿@{ 
-
+    var categoryId = Guid.Empty;
 }
 <h4>Welcome to the Internet Shop!</h4>
+<br/>
+<div class="row">
+    <div class="col-md-2">
+        @await Html.PartialAsync("~/Views/Home/_CategoryListPartial.cshtml")
+    </div>
+    <div class="col-md-10">
+        @await Html.PartialAsync("~/Views/Home/_ProductListPartial.cshtml")
+    </div>
+</div>
+
+<script>
+    $(function () {
+        var categoryId = '@categoryId';
+        getProductList(categoryId);
+    });
+
+</script>
+
