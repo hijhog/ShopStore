@@ -95,5 +95,12 @@ namespace ShopStore.Services
 
             return products.Select(x => _mapper.Map<ProductDTO>(x));            
         }
+
+        public IEnumerable<ProductDTO> GetFilteredProducts(IEnumerable<Guid> prodIds)
+        {
+            var products = _unitOfWork.ProductRepository.GetAll().Include(x => x.Category);
+            var filteredProducts = products.Where(x => prodIds.Contains(x.Id));
+            return filteredProducts.Any() ? filteredProducts.Select(x => _mapper.Map<ProductDTO>(x)) : null;
+        }
     }
 }

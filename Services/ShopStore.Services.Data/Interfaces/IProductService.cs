@@ -14,5 +14,6 @@ namespace ShopStore.Services.Data.Interfaces
         OperationResult Remove(Guid id);
 
         IEnumerable<ProductDTO> GetProductsByCategory(Guid categoryId);
+        IEnumerable<ProductDTO> GetFilteredProducts(IEnumerable<Guid> prodIds);
     }
 }

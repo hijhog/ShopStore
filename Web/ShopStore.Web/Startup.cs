@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using ShopStore.Data.Models.UserEntities;
 using ShopStore.Common;
 using ShopStore.Data.Seeding;
+using System;
 
 namespace ShopStore.Web
 {
@@ -46,7 +47,15 @@ namespace ShopStore.Web
                 });
 
             services.AddDistributedMemoryCache();
-            services.AddSession();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromHours(1);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddAutoMapper(typeof(WebMapperConfiguration), typeof(ServiceMapperConfiguration));
             DependencyConfiguration.Configure(services);
@@ -82,6 +91,7 @@ namespace ShopStore.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
             app.UseAuthentication();
 
             app.UseMvc(routes =>

@@ -20,7 +20,7 @@
                             '<div class="card-body">' +
                             '<h5 class="card-title">'+item.name+'</h5>' +
                             '<p class="card-text">'+item.description+'</p>' +
-                            '<a href="#" class="btn btn-primary stretched-link">Add To Cart</a></div></div>';
+                            '<button class="btn btn-primary stretched-link" onclick="addProductToCart(\''+item.id+'\')">Add To Cart</button></div></div>';
                         $(html).appendTo(root);
                     });
                 } else {
@@ -29,6 +29,24 @@
             },
             error: function () {
 
+            }
+        });
+    }
+
+    function addProductToCart(productId) {
+        $.ajax({
+            url: 'Cart/AddProductToCart',
+            type: 'GET',
+            data: 'productId=' + productId,
+            success: function (data) {
+                if (data.success) {
+                    toastr.success('Product added to cart');
+                } else {
+                    toastr.error('Error adding product');
+                }
+            },
+            error: function () {
+                window.location.href = "Account/AccessDenied";
             }
         });
     }

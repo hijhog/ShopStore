@@ -9,7 +9,7 @@ namespace ShopStore.Web.Extensions
 {
     public static class SessionExtension
     {
-        public static void Set<T>(this ISession session, string key, T value)
+        public static void Set(this ISession session, string key, object value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value));
         }
