@@ -12,9 +12,7 @@ namespace ShopStore.Data.Repositories
         private readonly ApplicationContext _context;
         private readonly IRepository<Product> _productRepository = null;
         private readonly IRepository<Category> _categoryRepository = null;
-        private readonly IRepository<Store> _storeRepository = null;
         private readonly IRepository<Order> _orderRepository = null;
-        private readonly IRepository<StoreProduct> _storeProductRepository = null;
         private readonly IRepository<AppUser> _userRepository = null;
         private readonly IUserRoleRepository _userRoleRepository = null;
         public UnitOfWork(ApplicationContext context)
@@ -32,19 +30,9 @@ namespace ShopStore.Data.Repositories
             get { return _categoryRepository ?? new Repository<Category>(_context); }
         }
 
-        public IRepository<Store> StoreRepository
-        {
-            get { return _storeRepository ?? new Repository<Store>(_context); }
-        }
-
         public IRepository<Order> OrderRepository
         {
             get { return _orderRepository ?? new Repository<Order>(_context); }
-        }
-
-        public IRepository<StoreProduct> StoreProductRepository
-        {
-            get { return _storeProductRepository ?? new Repository<StoreProduct>(_context); }
         }
 
         public IUserRoleRepository UserRoleRepository

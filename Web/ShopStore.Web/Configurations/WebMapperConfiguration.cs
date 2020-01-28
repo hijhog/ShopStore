@@ -17,12 +17,6 @@ namespace ShopStore.Web.Configurations
             CreateMap<ProductVM, ProductDTO>()
                 .ForMember(dest => dest.Image, opt => opt.Ignore());
 
-            CreateMap<StoreDTO, StoreVM>();
-            CreateMap<StoreVM, StoreDTO>();
-
-            CreateMap<StoreProductDTO, StoreProductVM>();
-            CreateMap<StoreProductVM, StoreProductDTO>();
-
             CreateMap<UserDTO, UserVM>();
             CreateMap<UserVM, UserDTO>();
         }

@@ -67,18 +67,6 @@ namespace ShopStore.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Stores",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stores", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -212,7 +200,9 @@ namespace ShopStore.Data.Migrations
                 {
                     ProductId = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    TotalSum = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,31 +217,6 @@ namespace ShopStore.Data.Migrations
                         name: "FK_Orders_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StoreProducts",
-                columns: table => new
-                {
-                    ProductId = table.Column<Guid>(nullable: false),
-                    StoreId = table.Column<Guid>(nullable: false),
-                    ProductCount = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StoreProducts", x => new { x.ProductId, x.StoreId });
-                    table.ForeignKey(
-                        name: "FK_StoreProducts_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StoreProducts_Stores_StoreId",
-                        column: x => x.StoreId,
-                        principalTable: "Stores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -305,11 +270,6 @@ namespace ShopStore.Data.Migrations
                 table: "Products",
                 column: "CategoryId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_StoreProducts_StoreId",
-                table: "StoreProducts",
-                column: "StoreId");
-
             FillDefaultRoles(migrationBuilder);
         }
 
@@ -334,19 +294,13 @@ namespace ShopStore.Data.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "StoreProducts");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Stores");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");

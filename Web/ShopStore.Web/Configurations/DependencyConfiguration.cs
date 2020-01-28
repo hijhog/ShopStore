@@ -13,7 +13,6 @@ namespace ShopStore.Web.Configurations
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();
-            services.AddTransient<IStoreService, StoreService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IRoleService, RoleService>();
         }

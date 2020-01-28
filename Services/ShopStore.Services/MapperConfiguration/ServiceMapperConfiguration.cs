@@ -20,12 +20,6 @@ namespace ShopStore.Services.MapperConfiguration
             CreateMap<ProductDTO, Product>()
                 .ForMember(dest => dest.Category, opt => opt.Ignore());
 
-            CreateMap<Store, StoreDTO>();
-            CreateMap<StoreDTO, Store>();
-
-            CreateMap<StoreProduct, StoreProductDTO>();
-            CreateMap<StoreProductDTO, StoreProduct>();
-
             CreateMap<AppUser, UserDTO>();
             CreateMap<UserDTO, AppUser>();
 

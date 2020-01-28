@@ -10,9 +10,7 @@ namespace ShopStore.Data.Models.Interfaces
     {
         IRepository<Product> ProductRepository { get; }
         IRepository<Category> CategoryRepository { get; }
-        IRepository<Store> StoreRepository { get; }
         IRepository<Order> OrderRepository { get; }
-        IRepository<StoreProduct> StoreProductRepository { get; }
         IRepository<AppUser> UserRepository { get; }
         IUserRoleRepository UserRoleRepository { get; }
         void Save();

@@ -122,7 +122,11 @@ namespace ShopStore.Data.Migrations
 
                     b.Property<Guid>("UserId");
 
+                    b.Property<int>("Quantity");
+
                     b.Property<int>("Status");
+
+                    b.Property<decimal>("TotalSum");
 
                     b.HasKey("ProductId", "UserId");
 
@@ -151,33 +155,6 @@ namespace ShopStore.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Store", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Stores");
-                });
-
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.StoreProduct", b =>
-                {
-                    b.Property<Guid>("ProductId");
-
-                    b.Property<Guid>("StoreId");
-
-                    b.Property<int>("ProductCount");
-
-                    b.HasKey("ProductId", "StoreId");
-
-                    b.HasIndex("StoreId");
-
-                    b.ToTable("StoreProducts");
                 });
 
             modelBuilder.Entity("ShopStore.Data.Models.UserEntities.AppUser", b =>
@@ -328,19 +305,6 @@ namespace ShopStore.Data.Migrations
                     b.HasOne("ShopStore.Data.Models.BusinessEntities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.StoreProduct", b =>
-                {
-                    b.HasOne("ShopStore.Data.Models.BusinessEntities.Product", "Product")
-                        .WithMany("StoreProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ShopStore.Data.Models.BusinessEntities.Store", "Store")
-                        .WithMany("StoreProducts")
-                        .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

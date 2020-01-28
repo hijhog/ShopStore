@@ -12,5 +12,7 @@ namespace ShopStore.Data.Models.BusinessEntities
         public AppUser User { get; set; }
 
         public OrderStatus Status { get; set; }
+        public int Quantity { get; set; }
+        public decimal TotalSum { get; set; }
     }
 }

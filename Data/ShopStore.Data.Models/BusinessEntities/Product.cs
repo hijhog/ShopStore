@@ -12,7 +12,6 @@ namespace ShopStore.Data.Models.BusinessEntities
         public Category Category { get; set; }
         public byte[] Image { get; set; }
 
-        public ICollection<StoreProduct> StoreProducts { get; set; }
         public ICollection<Order> Orders { get; set; }
     }
 }
