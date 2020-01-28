@@ -7,6 +7,7 @@ using ShopStore.Services.Data.Models;
 using ShopStore.Web.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ShopStore.Web.Areas.Admin.Controllers
@@ -54,6 +55,18 @@ namespace ShopStore.Web.Areas.Admin.Controllers
             }
 
             ProductDTO productDto = _mapper.Map<ProductDTO>(modelVM);
+            if(modelVM.Image != null)
+            {
+                using(var binaryReader = new BinaryReader(modelVM.Image.OpenReadStream()))
+                {
+                    productDto.Image = binaryReader.ReadBytes((int)modelVM.Image.Length);
+                }
+            }
+            else
+            {
+                productDto.Image = null;
+            }
+
             OperationResult result = _productService.Save(productDto);
             if (result.Successed)
             {

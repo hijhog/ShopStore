@@ -10,6 +10,7 @@ namespace ShopStore.Data.Models.BusinessEntities
         public decimal Price { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
+        public byte[] Image { get; set; }
 
         public ICollection<StoreProduct> StoreProducts { get; set; }
         public ICollection<Order> Orders { get; set; }

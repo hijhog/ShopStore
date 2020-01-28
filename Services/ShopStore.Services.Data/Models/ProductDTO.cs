@@ -12,5 +12,6 @@ namespace ShopStore.Services.Data.Models
         public decimal Price { get; set; }
         public Guid CategoryId { get; set; }
         public string Category { get; set; }
+        public byte[] Image { get; set; }
     }
 }

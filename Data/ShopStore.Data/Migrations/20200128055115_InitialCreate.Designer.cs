@@ -10,7 +10,7 @@ using ShopStore.Data;
 namespace ShopStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200127105843_InitialCreate")]
+    [Migration("20200128055115_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,6 +141,8 @@ namespace ShopStore.Data.Migrations
                     b.Property<Guid>("CategoryId");
 
                     b.Property<string>("Description");
+
+                    b.Property<byte[]>("Image");
 
                     b.Property<string>("Name");
 

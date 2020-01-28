@@ -12,8 +12,10 @@ namespace ShopStore.Web.Configurations
             CreateMap<CategoryDTO, CategoryVM>();
             CreateMap<CategoryVM, CategoryDTO>();
 
-            CreateMap<ProductDTO, ProductVM>();
-            CreateMap<ProductVM, ProductDTO>();
+            CreateMap<ProductDTO, ProductVM>()
+                .ForMember(dest => dest.Image, opt => opt.Ignore());
+            CreateMap<ProductVM, ProductDTO>()
+                .ForMember(dest => dest.Image, opt => opt.Ignore());
 
             CreateMap<StoreDTO, StoreVM>();
             CreateMap<StoreVM, StoreDTO>();

@@ -140,6 +140,8 @@ namespace ShopStore.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<byte[]>("Image");
+
                     b.Property<string>("Name");
 
                     b.Property<decimal>("Price");

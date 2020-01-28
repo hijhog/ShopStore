@@ -192,7 +192,8 @@ namespace ShopStore.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
-                    CategoryId = table.Column<Guid>(nullable: false)
+                    CategoryId = table.Column<Guid>(nullable: false),
+                    Image = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
