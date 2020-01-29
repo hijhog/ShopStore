@@ -6,34 +6,40 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShopStore.Services.Data.Interfaces;
+using ShopStore.Services.Data.Models;
 using ShopStore.Web.Extensions;
+using ShopStore.Web.Filters;
 using ShopStore.Web.Models;
 
 namespace ShopStore.Web.Controllers
 {
-    [Authorize]
-    public class CartController : Controller
+    public class CartController : BaseController
     {
         private readonly IProductService _productService;
+        private readonly IOrderService _orderService;
         public CartController(
-            IProductService productService)
+            IProductService productService,
+            IOrderService orderService)
         {
             _productService = productService;
+            _orderService = orderService;
         }
+
+        [CartFilter]
         public IActionResult Index()
         {
             var cart = GetCart();
-            var products = _productService.GetFilteredProducts(cart.ProductIds);
-            return View(products);
+            return View(cart);
         }
 
         [HttpGet]
         public IActionResult AddProductToCart(Guid productId)
         {
             var cart = GetCart();
-            cart.AddProduct(productId);
+            var productDto = _productService.Get(productId);
+            cart.AddProduct(productDto);
             HttpContext.Session.Set("Cart", cart);
-            return Json(new { success = true });
+            return Json(new { success = true, productCount = cart.Count });
         }
 
         [HttpGet]
@@ -43,16 +49,6 @@ namespace ShopStore.Web.Controllers
             cart.RemoveProduct(productId);
             HttpContext.Session.Set("Cart", cart);
             return RedirectToAction(nameof(Index));
-        }
-
-        private Cart GetCart()
-        {
-            Cart cart = HttpContext.Session.Get<Cart>("Cart");
-            if (cart == null)
-            {
-                cart = new Cart();
-            }
-            return cart;
         }
     }
 }

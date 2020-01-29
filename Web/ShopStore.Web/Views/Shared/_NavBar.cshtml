@@ -1,4 +1,7 @@
-﻿@using ShopStore.Common
+﻿@{ 
+    var prodCount = ViewBag.ProductCount == null ? 0 : (int)ViewBag.ProductCount;
+}
+@using ShopStore.Common
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shop Store</a>
@@ -18,7 +21,10 @@
                         </li>
                     }
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart <span class="badge badge-primary badge-pill" id="prod_count">@prodCount</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Your Orders</a>
                     </li>
                 }
             </ul>

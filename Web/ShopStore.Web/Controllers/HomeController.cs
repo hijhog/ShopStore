@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopStore.Services.Data.Interfaces;
+using ShopStore.Web.Filters;
 
 namespace ShopStore.Web.Controllers
 {
-    [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
@@ -22,6 +22,7 @@ namespace ShopStore.Web.Controllers
         }
 
         [AllowAnonymous]
+        [CartFilter]
         public IActionResult Index()
         {
             return View();

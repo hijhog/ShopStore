@@ -1,0 +1,71 @@
+﻿@model IEnumerable<OrderDTO>
+@using ShopStore.Services.Data.Models
+@using ShopStore.Data.Models.BusinessEntities
+@{
+    ViewData["Title"] = "Index";
+}
+<table id="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>User Name</th>
+            <th>Quantity</th>
+            <th>Total Sum</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4"><b>Name:</b></div>
+                    <div class="col-md-8"><span id="prod_name"></span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"><b>User Name:</b></div>
+                    <div class="col-md-8"><span id="user_name"></span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"><b>Quantity:</b></div>
+                    <div class="col-md-8"><span id="quantity"></span></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4"><b>Order Status:</b></div>
+                    <div class="col-md-8">
+                        <select id="status" asp-items="@Html.GetEnumSelectList<OrderStatus>()" class="form-control"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="changeStatus(window.order)">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Admin/Order/Index.js"></script>

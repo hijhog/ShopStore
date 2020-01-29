@@ -25,6 +25,8 @@ namespace ShopStore.Services.MapperConfiguration
 
             CreateMap<Role, RoleDTO>();
             CreateMap<RoleDTO, Role>();
+
+            CreateMap<OrderDTO, Order>();
         }
     }
 }

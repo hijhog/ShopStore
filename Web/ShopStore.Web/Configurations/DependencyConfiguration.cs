@@ -15,6 +15,7 @@ namespace ShopStore.Web.Configurations
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IOrderService, OrderService>();
         }
     }
 }

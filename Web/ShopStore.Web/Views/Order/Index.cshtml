@@ -1,0 +1,53 @@
+﻿@model IEnumerable<OrderDTO>
+@using ShopStore.Services.Data.Models
+@{
+    ViewData["Title"] = "Index";
+    decimal totalSum = 0;
+    var bgColors = new string[] {"", "bg-info", "bg-success", "bg-danger" };
+}
+
+<h1>Your Orders</h1>
+
+<table class="table table-sm">
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    @if (Model != null)
+    {
+        @foreach (var order in Model)
+        {
+            string classText = bgColors[(int)order.Status];
+            <tr>
+                <td>
+                    @if (order.ProductImage.Length != 0)
+                    {
+                        <img style='height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(order.ProductImage))" />
+                    }
+                    else
+                    {
+                        @:No image
+                    }
+                </td>
+                <td>@order.ProductName</td>
+                <td>$ @order.Price</td>
+                <td><span class="rounded-lg p-1 text-white @classText">@order.StatusText</span></td>
+                <td><a asp-action="AnnulmentOrder" asp-route-productId="@order.ProductId">Annulment</a></td>
+            </tr>
+            totalSum += order.Price;
+        }
+    }
+    else
+    {
+        <tr><td colspan="6">No Products</td></tr>
+    }
+    <tr>
+        <td colspan="2"><b>Total Sum:</b></td>
+        <td>$ @totalSum</td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>

@@ -19,7 +19,7 @@
                             '<img class="card-img-top cropped" src="data:image/jpeg;base64,' + item.image + '" />' +
                             '<div class="card-body">' +
                             '<h5 class="card-title">'+item.name+'</h5>' +
-                            '<p class="card-text">'+item.description+'</p>' +
+                            '<div class="box"><p class="card-text">'+item.description+'</p></div>' +
                             '<button class="btn btn-primary stretched-link" onclick="addProductToCart(\''+item.id+'\')">Add To Cart</button></div></div>';
                         $(html).appendTo(root);
                     });
@@ -40,13 +40,14 @@
             data: 'productId=' + productId,
             success: function (data) {
                 if (data.success) {
+                    $("#prod_count").html(data.productCount);
                     toastr.success('Product added to cart');
                 } else {
                     toastr.error('Error adding product');
                 }
             },
             error: function () {
-                window.location.href = "Account/AccessDenied";
+                window.location.href = "Account/Login";
             }
         });
     }
