@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,8 +9,7 @@ using System.Text;
 
 namespace ShopStore.Data.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> 
-        where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly ApplicationContext _context;
         private readonly DbSet<TEntity> _table;
@@ -46,15 +47,37 @@ namespace ShopStore.Data.Repositories
             _table.Remove(entity);
         }
 
-        public void Reference<TProperty>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, TProperty>> expression)
-            where TProperty : class
+        public void Reference(TEntity entity, params System.Linq.Expressions.Expression<Func<TEntity, object>>[] props)
         {
-            _context.Entry(entity).Reference(expression).Load();
+            foreach(var prop in props)
+            {
+                if (!_context.Entry(entity).Reference(prop).IsLoaded)
+                {
+                    _context.Entry(entity).Reference(prop).Load();
+                }
+            }            
         }
 
-        public void Collection<TProperty>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, IEnumerable<TProperty>>> expression) where TProperty : class
+        public void Collection(TEntity entity, params System.Linq.Expressions.Expression<Func<TEntity, IEnumerable<object>>>[] props)
         {
-            _context.Entry(entity).Collection(expression).Load();
+            foreach (var prop in props)
+            {
+                if (!_context.Entry(entity).Reference(prop).IsLoaded)
+                {
+                    _context.Entry(entity).Reference(prop).Load();
+                }
+            }
+        }
+
+        public IQueryable<TEntity> IncludeMultiple(IQueryable<TEntity> query, params System.Linq.Expressions.Expression<Func<TEntity, object>>[] includes)
+        {
+            if (includes != null)
+            {
+                query = includes.Aggregate(query,
+                          (current, include) => current.Include(include));
+            }
+
+            return query;
         }
     }
 }

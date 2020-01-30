@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopStore.Common;
 using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
+using ShopStore.Data.Repositories;
 using ShopStore.Services.Contract.Interfaces;
 using ShopStore.Services.Contract.Models;
 using System;
@@ -15,25 +16,27 @@ namespace ShopStore.Services
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<Product> _productRepository;
         private readonly IMapper _mapper;
         public ProductService(
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _productRepository = unitOfWork.GetRepository<Product>();
             _mapper = mapper;
         }
 
         public ProductDTO Get(Guid id)
         {
-            Product product = _unitOfWork.ProductRepository.Get(id);
-            _unitOfWork.ProductRepository.Reference(product, x => x.Category);
+            Product product = _productRepository.Get(id);
+            _productRepository.Reference(product, x => x.Category);
             return _mapper.Map<ProductDTO>(product);
         }
 
         public IEnumerable<ProductDTO> GetAll()
         {
-            var products = _unitOfWork.ProductRepository.GetAll().Include(x=>x.Category);
+            var products = _productRepository.GetAll().Include(x=>x.Category);
             return products.Select(x =>
                 _mapper.Map<ProductDTO>(x));
         }
@@ -43,7 +46,7 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                _unitOfWork.ProductRepository.Remove(id);
+                _productRepository.Remove(id);
                 await _unitOfWork.SaveAsync();
 
                 result.Successed = true;
@@ -60,16 +63,16 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                Product product = _unitOfWork.ProductRepository.Get(dto.Id);
+                Product product = _productRepository.Get(dto.Id);
                 if (product == null)
                 {
                     product = _mapper.Map<Product>(dto);
-                    _unitOfWork.ProductRepository.Insert(product);
+                    _productRepository.Insert(product);
                 }
                 else
                 {
                     _mapper.Map(dto, product);
-                    _unitOfWork.ProductRepository.Update(product);
+                    _productRepository.Update(product);
                 }
 
                 await _unitOfWork.SaveAsync();
@@ -87,11 +90,11 @@ namespace ShopStore.Services
             IQueryable<Product> products;
             if (categoryId.Equals(Guid.Empty))
             {
-                products = _unitOfWork.ProductRepository.GetAll();
+                products = _productRepository.GetAll();
             }
             else
             {
-                products = _unitOfWork.ProductRepository.GetAll().Where(x => x.CategoryId == categoryId);
+                products = _productRepository.GetAll().Where(x => x.CategoryId == categoryId);
             }
 
             return products.Select(x => _mapper.Map<ProductDTO>(x));
@@ -99,9 +102,9 @@ namespace ShopStore.Services
 
         public IEnumerable<ProductDTO> GetFilteredProducts(IEnumerable<Guid> prodIds)
         {
-            var products = _unitOfWork.ProductRepository.GetAll().Include(x => x.Category);
-            var filteredProducts = products.Where(x => prodIds.Contains(x.Id));
-            return filteredProducts.Any() ? filteredProducts.Select(x => _mapper.Map<ProductDTO>(x)) : null;
+            var products = _productRepository.GetAll().Include(x => x.Category);
+            var filteredProducts = products.Where(x => prodIds.Contains(x.Id)).Select(x => _mapper.Map<ProductDTO>(x));
+            return filteredProducts;
         }
     }
 }

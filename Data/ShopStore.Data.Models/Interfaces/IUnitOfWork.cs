@@ -9,10 +9,7 @@ namespace ShopStore.Data.Models.Interfaces
 {
     public interface IUnitOfWork
     {
-        IRepository<Product> ProductRepository { get; }
-        IRepository<Category> CategoryRepository { get; }
-        IRepository<Order> OrderRepository { get; }
-        IRepository<AppUser> UserRepository { get; }
+        IRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
         Task SaveAsync();
     }
 }

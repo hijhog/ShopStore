@@ -16,19 +16,16 @@ namespace ShopStore.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public AccountService(
             UserManager<AppUser> userManager,
             RoleManager<Role> roleManager,
             SignInManager<AppUser> signInManager,
-            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
-            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -101,18 +98,31 @@ namespace ShopStore.Services
         public async Task<OperationResult> EditAsync(UserDTO dto)
         {
             var result = new OperationResult();
-            var user = _unitOfWork.UserRepository.Get(dto.Id);
-            if(user != null)
+            try 
             {
-                _mapper.Map(dto, user);
-                _unitOfWork.UserRepository.Update(user);
-                await _unitOfWork.SaveAsync();
-                result.Successed = true;
+                var user = await _userManager.FindByIdAsync(dto.Id.ToString());
+                if (user != null)
+                {
+                    _mapper.Map(dto, user);
+                    var identityResult = await _userManager.UpdateAsync(user);
+                    if (!identityResult.Succeeded)
+                    {
+                        result.Description = GetErrorMessage(identityResult);
+                    }
+                    else
+                    {
+                        result.Successed = true;
+                    }
+                }
+                else
+                {
+                    result.Description = "This user not exists";
+                }
             }
-            else
+            catch(Exception ex)
             {
-                result.Description = "This user not exists";
-            }
+                result.Description = ex.Message;
+            }            
 
             return result;
         }
@@ -120,28 +130,30 @@ namespace ShopStore.Services
         public async Task<OperationResult> ChangePasswordAsync(ChangePasswordModel model)
         {
             var result = new OperationResult();
-            var user = _unitOfWork.UserRepository.Get(model.UserId);
-            if (user != null)
+            try
             {
-                var identityResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-                if (!identityResult.Succeeded)
+                var user = await _userManager.FindByIdAsync(model.UserId.ToString());
+                if (user != null)
                 {
-                    StringBuilder errorLine = new StringBuilder();
-                    foreach(var err in identityResult.Errors)
+                    var identityResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    if (!identityResult.Succeeded)
                     {
-                        errorLine.Append(err.Description);
+                        result.Description = GetErrorMessage(identityResult);
                     }
-                    result.Description = errorLine.ToString();
+                    else
+                    {
+                        result.Successed = true;
+                    }
                 }
                 else
                 {
-                    result.Successed = true;
+                    result.Description = "This user not exists";
                 }
             }
-            else
+            catch(Exception ex)
             {
-                result.Description = "This user not exists";
-            }
+                result.Description = ex.Message;
+            }            
 
             return result;
         }

@@ -11,33 +11,24 @@ namespace ShopStore.Data.Repositories
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly ApplicationContext _context;
-        private readonly IRepository<Product> _productRepository = null;
-        private readonly IRepository<Category> _categoryRepository = null;
-        private readonly IRepository<Order> _orderRepository = null;
-        private readonly IRepository<AppUser> _userRepository = null;
+
+        private readonly Dictionary<Type, IRepository> _repositories = new Dictionary<Type, IRepository>();
         public UnitOfWork(ApplicationContext context)
         {
             _context = context;
         }
 
-        public IRepository<Product> ProductRepository
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class
         {
-            get { return _productRepository ?? new Repository<Product>(_context); }
-        }
 
-        public IRepository<Category> CategoryRepository
-        {
-            get { return _categoryRepository ?? new Repository<Category>(_context); }
-        }
+            if (_repositories.ContainsKey(typeof(TEntity)))
+                return _repositories[typeof(TEntity)] as IRepository<TEntity>;
 
-        public IRepository<Order> OrderRepository
-        {
-            get { return _orderRepository ?? new Repository<Order>(_context); }
-        }
+            var repositoryType = typeof(Repository<>).MakeGenericType(typeof(TEntity));
+            var repository = (IRepository)Activator.CreateInstance(repositoryType, _context);
+            _repositories.Add(typeof(TEntity), repository);
 
-        public IRepository<AppUser> UserRepository
-        {
-            get { return _userRepository ?? new Repository<AppUser>(_context); }
+            return (IRepository<TEntity>)repository;
         }
 
         public async Task SaveAsync()
