@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopStore.Data.Models.BusinessEntities
+namespace ShopStore.Data.Contract.BusinessEntities
 {
     public class BaseEntity
     {

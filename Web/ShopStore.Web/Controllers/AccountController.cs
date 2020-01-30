@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShopStore.Common;
-using ShopStore.Services.Data.Interfaces;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Interfaces;
+using ShopStore.Services.Contract.Models;
 using ShopStore.Web.Models;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,7 +48,7 @@ namespace ShopStore.Web.Controllers
             this.ViewData["ReturnUrl"] = returnUrl;
             if (this.ModelState.IsValid)
             {
-                var result = await _accountService.Login(model.UserName, model.Password);
+                var result = await _accountService.LoginAsync(model.UserName, model.Password);
                 if (result.Successed)
                 {
                     return RedirectToLocal(returnUrl);
@@ -69,7 +69,7 @@ namespace ShopStore.Web.Controllers
             var userVM = new UserVM();
             if (!User.Identity.IsAuthenticated)
             {
-                userVM.RoleId = (await _roleService.GetRoleIdByName(GlobalConstants.User)).Id.ToString();
+                userVM.RoleId = (await _roleService.GetRoleIdByNameAsync(GlobalConstants.User)).Id.ToString();
             }
             else
             {
@@ -88,7 +88,7 @@ namespace ShopStore.Web.Controllers
             }
 
             var userDTO = _mapper.Map<UserDTO>(model);
-            var result = await _accountService.Create(userDTO);
+            var result = await _accountService.CreateAsync(userDTO);
             if (result.Successed)
             {
                 return RedirectToAction(nameof(Login));
@@ -114,7 +114,7 @@ namespace ShopStore.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _accountService.Logout();
+            await _accountService.LogoutAsync();
             return RedirectToAction(nameof(AccountController.Login), "Account");
         }
 

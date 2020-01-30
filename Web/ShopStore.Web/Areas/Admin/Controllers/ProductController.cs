@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopStore.Common;
-using ShopStore.Services.Data.Interfaces;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Interfaces;
+using ShopStore.Services.Contract.Models;
 using ShopStore.Web.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopStore.Web.Areas.Admin.Controllers
 {
@@ -47,7 +48,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.Admin)]
-        public IActionResult Save(ProductVM modelVM)
+        public async Task<IActionResult> Save(ProductVM modelVM)
         {
             if (!ModelState.IsValid)
             {
@@ -67,7 +68,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
                 productDto.Image = null;
             }
 
-            OperationResult result = _productService.Save(productDto);
+            OperationResult result = await _productService.SaveAsync(productDto);
             if (result.Successed)
             {
                 return RedirectToAction(nameof(Index));
@@ -90,9 +91,9 @@ namespace ShopStore.Web.Areas.Admin.Controllers
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.Admin)]
-        public IActionResult Remove(Guid id)
+        public async Task<IActionResult> Remove(Guid id)
         {
-            var result = _categoryService.Remove(id);
+            var result = await _categoryService.RemoveAsync(id);
             if (!result.Successed)
             {
                 ViewData["ErrorMessage"] = result.Description;

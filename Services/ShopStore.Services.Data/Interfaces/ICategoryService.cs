@@ -1,16 +1,17 @@
 ﻿using ShopStore.Common;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace ShopStore.Services.Data.Interfaces
+namespace ShopStore.Services.Contract.Interfaces
 {
     public interface ICategoryService
     {
         CategoryDTO Get(Guid id);
         IEnumerable<CategoryDTO> GetAll();
-        OperationResult Save(CategoryDTO dto);
-        OperationResult Remove(Guid id);
+        Task<OperationResult> SaveAsync(CategoryDTO dto);
+        Task<OperationResult> RemoveAsync(Guid id);
     }
 }

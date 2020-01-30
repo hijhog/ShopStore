@@ -1,13 +1,14 @@
 ﻿using ShopStore.Data.Models.Interfaces;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Models;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using ShopStore.Common;
 using System;
 using AutoMapper;
-using ShopStore.Data.Models.BusinessEntities;
-using ShopStore.Services.Data.Interfaces;
+using ShopStore.Data.Contract.BusinessEntities;
+using ShopStore.Services.Contract.Interfaces;
+using System.Threading.Tasks;
 
 namespace ShopStore.Services
 {
@@ -23,7 +24,7 @@ namespace ShopStore.Services
             _mapper = mapper;
         }
 
-        public IQueryable<OrderDTO> GetOrders()
+        public IEnumerable<OrderDTO> GetOrders()
         {
             var orders = from order in _unitOfWork.OrderRepository.GetAll()
                          join product in _unitOfWork.ProductRepository.GetAll()
@@ -44,7 +45,7 @@ namespace ShopStore.Services
             return orders;
         }
 
-        public IQueryable<OrderDTO> GetUserOrders(Guid userId)
+        public IEnumerable<OrderDTO> GetUserOrders(Guid userId)
         {
             var orders = from order in _unitOfWork.OrderRepository.GetAll()
                          join product in _unitOfWork.ProductRepository.GetAll()
@@ -63,7 +64,7 @@ namespace ShopStore.Services
             return orders;
         }
 
-        public OperationResult AddOrders(IEnumerable<OrderDTO> orders, Guid userId)
+        public async Task<OperationResult> AddOrdersAsync(IEnumerable<OrderDTO> orders, Guid userId)
         {
             var result = new OperationResult();
             try
@@ -79,7 +80,7 @@ namespace ShopStore.Services
                     _unitOfWork.OrderRepository.Insert(order);
                 }
 
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
                 result.Successed = true;
             }
             catch(Exception ex)
@@ -89,7 +90,7 @@ namespace ShopStore.Services
             return result;
         }
 
-        public OperationResult AnnulmentOrder(Guid productId, Guid userId)
+        public async Task<OperationResult> AnnulmentOrderAsync(Guid productId, Guid userId)
         {
             var result = new OperationResult();
             try
@@ -97,7 +98,7 @@ namespace ShopStore.Services
                 var order = _unitOfWork.OrderRepository.Get(productId, userId);
                 order.Status = OrderStatus.Rejected;
                 _unitOfWork.OrderRepository.Update(order);
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
                 result.Successed = true;
             }
             catch(Exception ex)
@@ -107,13 +108,13 @@ namespace ShopStore.Services
             return result;
         }
 
-        public OperationResult RemoveOrder(Guid productId, Guid userId)
+        public async Task<OperationResult> RemoveOrderAsync(Guid productId, Guid userId)
         {
             var result = new OperationResult();
             try
             {
                 _unitOfWork.OrderRepository.Remove(productId, userId);
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
 
                 result.Successed = true;
             }
@@ -125,7 +126,7 @@ namespace ShopStore.Services
             return result;
         }
 
-        public OperationResult ChangeStatus(OrderDTO dto)
+        public async Task<OperationResult> ChangeStatusAsync(OrderDTO dto)
         {
             var result = new OperationResult();
             try
@@ -133,7 +134,7 @@ namespace ShopStore.Services
                 var order = _unitOfWork.OrderRepository.Get(dto.ProductId, dto.UserId);
                 order.Status = dto.Status;
                 _unitOfWork.OrderRepository.Update(order);
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
                 result.Successed = true;
             }
             catch(Exception ex)

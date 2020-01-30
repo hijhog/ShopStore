@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopStore.Services", "Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopStore.Web", "Web\ShopStore.Web\ShopStore.Web.csproj", "{045C85D7-0442-4D2D-9553-407FE0C16DBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopStore.Data.Models", "Data\ShopStore.Data.Models\ShopStore.Data.Models.csproj", "{308895BD-5F05-420A-8AE0-9F61DE140743}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopStore.Data.Contract", "Data\ShopStore.Data.Models\ShopStore.Data.Contract.csproj", "{308895BD-5F05-420A-8AE0-9F61DE140743}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopStore.Services.Data", "Services\ShopStore.Services.Data\ShopStore.Services.Data.csproj", "{7FA5EAD1-FD47-42F4-9C90-2B609DA038E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopStore.Services.Contract", "Services\ShopStore.Services.Data\ShopStore.Services.Contract.csproj", "{7FA5EAD1-FD47-42F4-9C90-2B609DA038E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

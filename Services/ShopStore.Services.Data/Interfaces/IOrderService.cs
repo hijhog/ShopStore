@@ -1,19 +1,20 @@
 ﻿using ShopStore.Common;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace ShopStore.Services.Data.Interfaces
+namespace ShopStore.Services.Contract.Interfaces
 {
     public interface IOrderService
     {
-        IQueryable<OrderDTO> GetOrders();
-        IQueryable<OrderDTO> GetUserOrders(Guid userId);
-        OperationResult AddOrders(IEnumerable<OrderDTO> orders, Guid userId);
-        OperationResult AnnulmentOrder(Guid productId, Guid userId);
-        OperationResult RemoveOrder(Guid productId, Guid userId);
-        OperationResult ChangeStatus(OrderDTO dto);
+        IEnumerable<OrderDTO> GetOrders();
+        IEnumerable<OrderDTO> GetUserOrders(Guid userId);
+        Task<OperationResult> AddOrdersAsync(IEnumerable<OrderDTO> orders, Guid userId);
+        Task<OperationResult> AnnulmentOrderAsync(Guid productId, Guid userId);
+        Task<OperationResult> RemoveOrderAsync(Guid productId, Guid userId);
+        Task<OperationResult> ChangeStatusAsync(OrderDTO dto);
     }
 }

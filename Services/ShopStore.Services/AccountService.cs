@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using ShopStore.Common;
 using ShopStore.Data.Models.Interfaces;
 using ShopStore.Data.Models.UserEntities;
-using ShopStore.Services.Data.Interfaces;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Interfaces;
+using ShopStore.Services.Contract.Models;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +32,7 @@ namespace ShopStore.Services
             _mapper = mapper;
         }
 
-        public async Task<OperationResult> Login(string userName, string password)
+        public async Task<OperationResult> LoginAsync(string userName, string password)
         {
             var result = new OperationResult() { Description = "Failed to Log In" };
             try
@@ -58,12 +58,12 @@ namespace ShopStore.Services
             return result;
         }
 
-        public async Task Logout()
+        public async Task LogoutAsync()
         {
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<OperationResult> Create(UserDTO dto)
+        public async Task<OperationResult> CreateAsync(UserDTO dto)
         {
             var result = new OperationResult();
             var user = await _userManager.FindByNameAsync(dto.UserName);
@@ -98,7 +98,7 @@ namespace ShopStore.Services
             return result;
         }
 
-        public OperationResult Edit(UserDTO dto)
+        public async Task<OperationResult> EditAsync(UserDTO dto)
         {
             var result = new OperationResult();
             var user = _unitOfWork.UserRepository.Get(dto.Id);
@@ -106,7 +106,7 @@ namespace ShopStore.Services
             {
                 _mapper.Map(dto, user);
                 _unitOfWork.UserRepository.Update(user);
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
                 result.Successed = true;
             }
             else
@@ -117,7 +117,7 @@ namespace ShopStore.Services
             return result;
         }
 
-        public async Task<OperationResult> ChangePassword(ChangePasswordModel model)
+        public async Task<OperationResult> ChangePasswordAsync(ChangePasswordModel model)
         {
             var result = new OperationResult();
             var user = _unitOfWork.UserRepository.Get(model.UserId);

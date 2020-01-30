@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopStore.Common;
-using ShopStore.Data.Models.BusinessEntities;
+using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
-using ShopStore.Services.Data.Interfaces;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Interfaces;
+using ShopStore.Services.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopStore.Services
 {
@@ -37,13 +38,13 @@ namespace ShopStore.Services
                 _mapper.Map<ProductDTO>(x));
         }
 
-        public OperationResult Remove(Guid id)
+        public async Task<OperationResult> RemoveAsync(Guid id)
         {
             var result = new OperationResult();
             try
             {
                 _unitOfWork.ProductRepository.Remove(id);
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
 
                 result.Successed = true;
             }
@@ -54,7 +55,7 @@ namespace ShopStore.Services
             return result;
         }
 
-        public OperationResult Save(ProductDTO dto)
+        public async Task<OperationResult> SaveAsync(ProductDTO dto)
         {
             var result = new OperationResult();
             try
@@ -71,7 +72,7 @@ namespace ShopStore.Services
                     _unitOfWork.ProductRepository.Update(product);
                 }
 
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
                 result.Successed = true;
             }
             catch (Exception ex)
@@ -93,7 +94,7 @@ namespace ShopStore.Services
                 products = _unitOfWork.ProductRepository.GetAll().Where(x => x.CategoryId == categoryId);
             }
 
-            return products.Select(x => _mapper.Map<ProductDTO>(x));            
+            return products.Select(x => _mapper.Map<ProductDTO>(x));
         }
 
         public IEnumerable<ProductDTO> GetFilteredProducts(IEnumerable<Guid> prodIds)

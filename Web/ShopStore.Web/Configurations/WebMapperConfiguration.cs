@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Models;
 using ShopStore.Web.Areas.Admin.Models;
 using ShopStore.Web.Models;
 

@@ -1,4 +1,4 @@
-﻿using ShopStore.Data.Models.BusinessEntities;
+﻿using ShopStore.Data.Contract.BusinessEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

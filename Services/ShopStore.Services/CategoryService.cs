@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using ShopStore.Common;
-using ShopStore.Data.Models.BusinessEntities;
+using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
-using ShopStore.Services.Data.Interfaces;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Interfaces;
+using ShopStore.Services.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopStore.Services
 {
@@ -35,13 +36,13 @@ namespace ShopStore.Services
                 _mapper.Map<CategoryDTO>(x));
         }
 
-        public OperationResult Remove(Guid id)
+        public async Task<OperationResult> RemoveAsync(Guid id)
         {
             var result = new OperationResult();
             try
             {
                 _unitOfWork.CategoryRepository.Remove(new Guid[] { id });
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
 
                 result.Successed = true;
             }
@@ -52,7 +53,7 @@ namespace ShopStore.Services
             return result;
         }
 
-        public OperationResult Save(CategoryDTO dto)
+        public async Task<OperationResult> SaveAsync(CategoryDTO dto)
         {
             var result = new OperationResult();
             try
@@ -69,7 +70,7 @@ namespace ShopStore.Services
                     _unitOfWork.CategoryRepository.Update(category);
                 }
 
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
                 result.Successed = true;
             }
             catch(Exception ex)

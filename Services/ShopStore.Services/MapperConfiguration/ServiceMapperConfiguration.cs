@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using ShopStore.Data.Models.BusinessEntities;
+using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.UserEntities;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

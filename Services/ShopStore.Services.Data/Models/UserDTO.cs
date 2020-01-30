@@ -1,9 +1,9 @@
-﻿using ShopStore.Data.Models.BusinessEntities;
+﻿using ShopStore.Data.Contract.BusinessEntities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopStore.Services.Data.Models
+namespace ShopStore.Services.Contract.Models
 {
     public class UserDTO
     {

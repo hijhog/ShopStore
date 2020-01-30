@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShopStore.Data.Models.BusinessEntities;
+using ShopStore.Data.Contract.BusinessEntities;
 
 namespace ShopStore.Data.Configurations
 {

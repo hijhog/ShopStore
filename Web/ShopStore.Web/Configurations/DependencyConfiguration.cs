@@ -2,7 +2,7 @@
 using ShopStore.Data.Models.Interfaces;
 using ShopStore.Data.Repositories;
 using ShopStore.Services;
-using ShopStore.Services.Data.Interfaces;
+using ShopStore.Services.Contract.Interfaces;
 
 namespace ShopStore.Web.Configurations
 {

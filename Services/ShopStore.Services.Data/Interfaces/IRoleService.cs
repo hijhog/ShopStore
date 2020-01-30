@@ -1,13 +1,13 @@
-﻿using ShopStore.Services.Data.Models;
+﻿using ShopStore.Services.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ShopStore.Services.Data.Interfaces
+namespace ShopStore.Services.Contract.Interfaces
 {
     public interface IRoleService
     {
-        Task<RoleDTO> GetRoleIdByName(string name);
+        Task<RoleDTO> GetRoleIdByNameAsync(string name);
         IEnumerable<RoleDTO> GetRoles();
     }
 }

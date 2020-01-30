@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\ShopStore.Data.Models\ShopStore.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\ShopStore.Data.Models\ShopStore.Data.Contract.csproj" />
     <ProjectReference Include="..\..\ShopStore.Common\ShopStore.Common.csproj" />
   </ItemGroup>
 

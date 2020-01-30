@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopStore.Common;
-using ShopStore.Services.Data.Interfaces;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Interfaces;
+using ShopStore.Services.Contract.Models;
 using ShopStore.Web.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShopStore.Web.Areas.Admin.Controllers
 {
@@ -38,7 +39,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Save(CategoryVM modelVM)
+        public async Task<IActionResult> Save(CategoryVM modelVM)
         {
             if (!ModelState.IsValid)
             {
@@ -46,7 +47,7 @@ namespace ShopStore.Web.Areas.Admin.Controllers
             }
 
             CategoryDTO categoryDto = _mapper.Map<CategoryDTO>(modelVM);
-            OperationResult result = _categoryService.Save(categoryDto);
+            OperationResult result = await _categoryService.SaveAsync(categoryDto);
             if (result.Successed)
             {
                 return RedirectToAction(nameof(Index));
@@ -67,9 +68,9 @@ namespace ShopStore.Web.Areas.Admin.Controllers
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.Admin)]
-        public IActionResult Remove(Guid id)
+        public async Task<IActionResult> Remove(Guid id)
         {
-            var result = _categoryService.Remove(id);
+            var result = await _categoryService.RemoveAsync(id);
             if (!result.Successed)
             {
                 ViewBag.ErrorMessage = result.Description;

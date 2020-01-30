@@ -9,10 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\ShopStore.Data.Models\ShopStore.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\ShopStore.Data.Models\ShopStore.Data.Contract.csproj" />
     <ProjectReference Include="..\..\Data\ShopStore.Data\ShopStore.Data.csproj" />
     <ProjectReference Include="..\..\ShopStore.Common\ShopStore.Common.csproj" />
-    <ProjectReference Include="..\ShopStore.Services.Data\ShopStore.Services.Data.csproj" />
+    <ProjectReference Include="..\ShopStore.Services.Data\ShopStore.Services.Contract.csproj" />
   </ItemGroup>
 
 </Project>

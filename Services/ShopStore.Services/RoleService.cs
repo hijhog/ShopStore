@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using ShopStore.Data.Models.UserEntities;
-using ShopStore.Services.Data.Interfaces;
-using ShopStore.Services.Data.Models;
+using ShopStore.Services.Contract.Interfaces;
+using ShopStore.Services.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace ShopStore.Services
             _mapper = mapper;
         }
 
-        public async Task<RoleDTO> GetRoleIdByName(string name)
+        public async Task<RoleDTO> GetRoleIdByNameAsync(string name)
         {
             var role = await _roleManager.FindByNameAsync(name);
             return _mapper.Map<RoleDTO>(role);

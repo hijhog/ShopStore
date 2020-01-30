@@ -1,9 +1,10 @@
-﻿using ShopStore.Data.Models.BusinessEntities;
+﻿using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
 using ShopStore.Data.Models.UserEntities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ShopStore.Data.Repositories
 {
@@ -14,7 +15,6 @@ namespace ShopStore.Data.Repositories
         private readonly IRepository<Category> _categoryRepository = null;
         private readonly IRepository<Order> _orderRepository = null;
         private readonly IRepository<AppUser> _userRepository = null;
-        private readonly IUserRoleRepository _userRoleRepository = null;
         public UnitOfWork(ApplicationContext context)
         {
             _context = context;
@@ -35,19 +35,14 @@ namespace ShopStore.Data.Repositories
             get { return _orderRepository ?? new Repository<Order>(_context); }
         }
 
-        public IUserRoleRepository UserRoleRepository
-        {
-            get { return _userRoleRepository ?? new UserRoleRepository(_context); }
-        }
-
         public IRepository<AppUser> UserRepository
         {
             get { return _userRepository ?? new Repository<AppUser>(_context); }
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         private bool _disposed = false;

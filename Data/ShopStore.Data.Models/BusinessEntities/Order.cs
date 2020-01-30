@@ -1,7 +1,7 @@
 ﻿using ShopStore.Data.Models.UserEntities;
 using System;
 
-namespace ShopStore.Data.Models.BusinessEntities
+namespace ShopStore.Data.Contract.BusinessEntities
 {
     public class Order
     {

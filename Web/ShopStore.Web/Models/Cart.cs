@@ -1,4 +1,4 @@
-﻿using ShopStore.Services.Data.Models;
+﻿using ShopStore.Services.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
