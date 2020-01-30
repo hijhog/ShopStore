@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using ShopStore.Services.Contract.Interfaces;
 using ShopStore.Services.Contract.Models;
 using ShopStore.Web.Extensions;
-using ShopStore.Web.Filters;
 
 namespace ShopStore.Web.Controllers
 {
