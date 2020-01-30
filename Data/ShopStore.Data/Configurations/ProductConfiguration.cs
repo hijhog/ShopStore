@@ -8,6 +8,8 @@ namespace ShopStore.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
+            builder.Property(x => x.Price).HasColumnType("decimal(18,2)").IsRequired();
+
             builder.HasOne(x => x.Category).WithMany(x => x.Products).HasForeignKey(x => x.CategoryId);
         }
     }

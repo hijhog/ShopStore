@@ -15,6 +15,7 @@ namespace ShopStore.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<Cart> _cartRepository;
         private readonly IMapper _mapper;
         public OrderService(
             IUnitOfWork unitOfWork,
@@ -22,6 +23,7 @@ namespace ShopStore.Services
         {
             _unitOfWork = unitOfWork;
             _orderRepository = unitOfWork.GetRepository<Order>();
+            _cartRepository = unitOfWork.GetRepository<Cart>();
             _mapper = mapper;
         }
 
@@ -37,20 +39,19 @@ namespace ShopStore.Services
             return orders.Select(x => _mapper.Map<OrderDTO>(x));
         }
 
-        public async Task<OperationResult> AddOrdersAsync(IEnumerable<OrderDTO> orders, Guid userId)
+        public async Task<OperationResult> MakeAnOrderAsync(Guid userId)
         {
             var result = new OperationResult();
             try
             {
-                foreach (var o in orders)
+                var carts = _cartRepository.IncludeMultiple(_cartRepository.GetAll().Where(x => x.UserId == userId), p => p.Product)
+                                           .Select(x => _mapper.Map<CartDTO>(x));
+                foreach (var cart in carts)
                 {
-                    var product = _unitOfWork.GetRepository<Product>().Get(o.ProductId);
-                    var order = _mapper.Map<Order>(o);
-                    order.UserId = userId;
+                    var order = _mapper.Map<Order>(cart);
                     order.Status = OrderStatus.Accepted;
-                    order.TotalSum = product.Price * o.Quantity;
-
                     _orderRepository.Insert(order);
+                    _cartRepository.Remove(cart.ProductId, cart.UserId);
                 }
 
                 await _unitOfWork.SaveAsync();

@@ -32,6 +32,14 @@ namespace ShopStore.Services.MapperConfiguration
                 .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.ToString()))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.LastName} {src.User.FirstName} {src.User.Patronymic}"));
             CreateMap<OrderDTO, Order>();
+
+            CreateMap<Cart, CartDTO>()
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Product.Price));
+            CreateMap<CartDTO, Cart>();
+
+            CreateMap<CartDTO, Order>()
+                .ForMember(dest => dest.TotalSum, opt => opt.MapFrom(src => src.Price * src.Quantity));
         }
     }
 }

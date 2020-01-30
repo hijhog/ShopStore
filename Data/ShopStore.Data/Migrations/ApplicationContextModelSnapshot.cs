@@ -102,7 +102,22 @@ namespace ShopStore.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Category", b =>
+            modelBuilder.Entity("ShopStore.Data.Contract.BusinessEntities.Cart", b =>
+                {
+                    b.Property<Guid>("ProductId");
+
+                    b.Property<Guid>("UserId");
+
+                    b.Property<int>("Quantity");
+
+                    b.HasKey("ProductId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Cart");
+                });
+
+            modelBuilder.Entity("ShopStore.Data.Contract.BusinessEntities.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -116,7 +131,7 @@ namespace ShopStore.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Order", b =>
+            modelBuilder.Entity("ShopStore.Data.Contract.BusinessEntities.Order", b =>
                 {
                     b.Property<Guid>("ProductId");
 
@@ -126,7 +141,8 @@ namespace ShopStore.Data.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<decimal>("TotalSum");
+                    b.Property<decimal>("TotalSum")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ProductId", "UserId");
 
@@ -135,7 +151,7 @@ namespace ShopStore.Data.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Product", b =>
+            modelBuilder.Entity("ShopStore.Data.Contract.BusinessEntities.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -148,7 +164,8 @@ namespace ShopStore.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -287,9 +304,22 @@ namespace ShopStore.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Order", b =>
+            modelBuilder.Entity("ShopStore.Data.Contract.BusinessEntities.Cart", b =>
                 {
-                    b.HasOne("ShopStore.Data.Models.BusinessEntities.Product", "Product")
+                    b.HasOne("ShopStore.Data.Contract.BusinessEntities.Product", "Product")
+                        .WithMany("Cart")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ShopStore.Data.Models.UserEntities.AppUser", "User")
+                        .WithMany("Cart")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ShopStore.Data.Contract.BusinessEntities.Order", b =>
+                {
+                    b.HasOne("ShopStore.Data.Contract.BusinessEntities.Product", "Product")
                         .WithMany("Orders")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -300,9 +330,9 @@ namespace ShopStore.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ShopStore.Data.Models.BusinessEntities.Product", b =>
+            modelBuilder.Entity("ShopStore.Data.Contract.BusinessEntities.Product", b =>
                 {
-                    b.HasOne("ShopStore.Data.Models.BusinessEntities.Category", "Category")
+                    b.HasOne("ShopStore.Data.Contract.BusinessEntities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -15,16 +15,18 @@ namespace ShopStore.Web.Controllers
         private readonly ICategoryService _categoryService;
         public HomeController(
             IProductService productService,
-            ICategoryService categoryService)
+            ICategoryService categoryService,
+            ICartService cartService)
+            :base(cartService)
         {
             _productService = productService;
             _categoryService = categoryService;
         }
 
         [AllowAnonymous]
-        [CartFilter]
         public IActionResult Index()
         {
+            ViewBag.ProductCount = GetCart().Quantity;
             return View();
         }
 

@@ -12,7 +12,7 @@ namespace ShopStore.Services.Contract.Interfaces
     {
         IEnumerable<OrderDTO> GetOrders();
         IEnumerable<OrderDTO> GetUserOrders(Guid userId);
-        Task<OperationResult> AddOrdersAsync(IEnumerable<OrderDTO> orders, Guid userId);
+        Task<OperationResult> MakeAnOrderAsync(Guid userId);
         Task<OperationResult> AnnulmentOrderAsync(Guid productId, Guid userId);
         Task<OperationResult> RemoveOrderAsync(Guid productId, Guid userId);
         Task<OperationResult> ChangeStatusAsync(OrderDTO dto);

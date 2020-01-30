@@ -39,8 +39,8 @@
             type: 'GET',
             data: 'productId=' + productId,
             success: function (data) {
-                if (data.success) {
-                    $("#prod_count").html(data.productCount);
+                if (data.successed) {
+                    updateCart();
                     toastr.success('Product added to cart');
                 } else {
                     toastr.error('Error adding product');
@@ -50,6 +50,19 @@
                 window.location.href = "Account/Login";
             }
         });
+    }
+
+    function updateCart() {
+        $.ajax({
+            url: 'Cart/GetProductCount',
+            type: 'GET',
+            success: function (data) {
+                $('#prod_count').html(data.count);
+            },
+            error: function () {
+                toastr.error('Failed to update the number of items in the cart');
+            }
+        })
     }
 
 </script>

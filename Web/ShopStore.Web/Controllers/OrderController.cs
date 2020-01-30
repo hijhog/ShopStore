@@ -15,27 +15,29 @@ namespace ShopStore.Web.Controllers
     {
         private readonly IOrderService _orderService;
         public OrderController(
-            IOrderService orderService)
+            IOrderService orderService,
+            ICartService cartService)
+            :base(cartService)
         {
             _orderService = orderService;
         }
 
-        [CartFilter]
         public IActionResult Index()
         {
             var orders = _orderService.GetUserOrders(User.GetUserId());
+            ViewBag.ProductCount = GetCart().Quantity;
             return View(orders);
         }
 
         [HttpGet]
         public async Task<IActionResult> MakeOrder()
         {
-            var cart = GetCart();
-            var orders = cart.Collection.Select(x => new OrderDTO { ProductId = x.Product.Id, Quantity = x.Quantity });
-            var result = await _orderService.AddOrdersAsync(orders, User.GetUserId());
+            var result = await _orderService.MakeAnOrderAsync(User.GetUserId());
             if (result.Successed)
             {
-                HttpContext.Session.Set("Cart", new Cart());
+                var cart = GetCart();
+                cart.Reset();
+                SaveCart(cart);
             }
             return RedirectToAction(nameof(Index));
         }

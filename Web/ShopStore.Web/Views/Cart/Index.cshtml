@@ -1,4 +1,4 @@
-﻿@model Cart
+﻿@model IEnumerable<CartDTO>
 @using ShopStore.Services.Contract.Models
 @{
     ViewData["Title"] = "Index";
@@ -15,34 +15,26 @@
         <th>Price</th>
         <th></th>
     </tr>
-    @if (Model.Collection != null)
-    {
-        @foreach (var cartLine in Model.Collection)
+        @foreach (var cart in Model)
         {
-            ProductDTO product = cartLine.Product;
             <tr>
                 <td>
-                    @if (product.Image.Length != 0)
+                    @if (cart.ProductImage.Length != 0)
                     {
-                        <img style='height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(product.Image))" />
+                        <img style='height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(cart.ProductImage))" />
                     }
                     else
                     {
                         @:No image
                     }
                 </td>
-                <td>@product.Name</td>
-                <td>@cartLine.Quantity</td>
-                <td>$ @product.Price</td>
-                <td><a asp-action="RemoveProduct" asp-route-productId="@product.Id">Remove From Cart</a></td>
+                <td>@cart.ProductName</td>
+                <td>@cart.Quantity</td>
+                <td>$ @cart.Price</td>
+                <td><a asp-action="RemoveProduct" asp-route-productId="@cart.ProductId">Remove From Cart</a></td>
             </tr>
-            totalSum += product.Price;
+            totalSum += cart.Price;
         }
-    }
-    else
-    {
-        <tr><td colspan="6">No Products</td></tr>
-    }
     <tr>
         <td colspan="3"><b>Total Sum:</b></td>
         <td>$ @totalSum</td>

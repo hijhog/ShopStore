@@ -15,5 +15,6 @@ namespace ShopStore.Data.Models.UserEntities
         public Gender Gender { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+        public ICollection<Cart> Cart { get; set; }
     }
 }

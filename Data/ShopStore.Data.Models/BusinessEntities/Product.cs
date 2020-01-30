@@ -13,5 +13,6 @@ namespace ShopStore.Data.Contract.BusinessEntities
         public byte[] Image { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+        public ICollection<Cart> Cart { get; set; }
     }
 }
