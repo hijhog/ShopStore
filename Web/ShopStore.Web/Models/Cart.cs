@@ -8,20 +8,32 @@ namespace ShopStore.Web.Models
 {
     public class Cart
     {
-        public int Quantity { get; set; }
-        public void Reset()
+        private List<Guid> _collection = new List<Guid>();
+
+        public Cart()
+        { }
+        public Cart(IEnumerable<Guid> productIds)
         {
-            Quantity = 0;
+            Collection.AddRange(productIds);
         }
-        public static Cart operator ++(Cart a)
+
+        public void AddProduct(Guid productId)
         {
-            a.Quantity += 1;
-            return a;
+            if (!_collection.Contains(productId))
+            {
+                Collection.Add(productId);
+            }
         }
-        public static Cart operator --(Cart a)
+        public void RemoveProduct(Guid productId)
         {
-            a.Quantity -= 1;
-            return a;
+            Collection.Remove(productId);
         }
+        public void RemoveAll()
+        {
+            Collection.Clear();
+        }
+
+        public int Count { get { return Collection.Count; } }
+        public List<Guid> Collection { get { return _collection; } }
     }
 }

@@ -14,5 +14,6 @@ namespace ShopStore.Services.Contract.Interfaces
         Task<OperationResult> RemoveProduct(Guid productId, Guid userId);
         Task<OperationResult> RemoveCartUser(Guid userId);
         int GetCountProducts(Guid userId);
+        IEnumerable<Guid> GetProductIds(Guid userId);
     }
 }

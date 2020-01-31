@@ -26,7 +26,7 @@ namespace ShopStore.Web.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    cart = new Cart { Quantity = _cartService.GetCountProducts(User.GetUserId()) };
+                    cart = new Cart(_cartService.GetProductIds(User.GetUserId()));
                 }
                 else
                 {

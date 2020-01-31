@@ -20,9 +20,15 @@ namespace ShopStore.Web.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.ProductCount = GetCart().Count;
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetCartProducts()
+        {
             var cart = _cartService.GetCartByUserId(User.GetUserId());
-            ViewBag.ProductCount = GetCart().Quantity;
-            return View(cart);
+            return Json(new { cart });
         }
 
         [HttpGet]
@@ -33,7 +39,7 @@ namespace ShopStore.Web.Controllers
             if (result.Successed)
             {
                 var cart = GetCart();
-                cart.Quantity = _cartService.GetCountProducts(User.GetUserId());
+                cart.AddProduct(productId);
                 SaveCart(cart);
             }
             return Json(new { result.Successed, result.Description });
@@ -46,7 +52,7 @@ namespace ShopStore.Web.Controllers
             if(result.Successed)
             {
                 var cart = GetCart();
-                cart.Quantity = _cartService.GetCountProducts(User.GetUserId());
+                cart.RemoveProduct(productId);
                 SaveCart(cart);
             }
             return Json(new { result.Successed, result.Description });

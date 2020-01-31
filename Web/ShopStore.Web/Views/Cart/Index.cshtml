@@ -1,46 +1,97 @@
-﻿@model IEnumerable<CartDTO>
-@using ShopStore.Services.Contract.Models
+﻿@using ShopStore.Services.Contract.Models
 @{
     ViewData["Title"] = "Index";
-    decimal totalSum = 0;
 }
 
 <h1>Your Cart</h1>
 
-<table class="table table-sm">
-    <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th></th>
-    </tr>
-        @foreach (var cart in Model)
-        {
-            <tr>
-                <td>
-                    @if (cart.ProductImage.Length != 0)
-                    {
-                        <img style='height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(cart.ProductImage))" />
-                    }
-                    else
-                    {
-                        @:No image
-                    }
-                </td>
-                <td>@cart.ProductName</td>
-                <td>@cart.Quantity</td>
-                <td>$ @cart.Price</td>
-                <td><a asp-action="RemoveProduct" asp-route-productId="@cart.ProductId">Remove From Cart</a></td>
-            </tr>
-            totalSum += cart.Price;
-        }
-    <tr>
-        <td colspan="3"><b>Total Sum:</b></td>
-        <td>$ @totalSum</td>
-        <td></td>
-        <td>
-            <a class="btn btn-primary btn-sm" asp-area="" asp-controller="Order" asp-action="MakeOrder">To Order</a>
-        </td>
-    </tr>
+<table id="table" class="table table-sm">
+    <thead>
+        <tr>
+            <td>Image</td>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Price</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody id="cart_table_body">
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="cart_totalSum"></td>
+            <td id="order_btn_block">
+                <a class="btn btn-primary btn-sm" asp-area="" asp-controller="Order" asp-action="MakeOrder">To Order</a>
+            </td>
+        </tr>
+    </tfoot>
 </table>
+<script>
+    $(function () {
+        $.ajax({
+            url: 'Cart/GetCartProducts',
+            type: 'GET',
+            success: function (responce) {
+                if (responce.cart.length != 0) {
+                    var body = $('#cart_table_body');
+                    var totalSum = 0;
+                    var html = '';
+                    responce.cart.forEach(function (item) {
+                        var imageHtml = item.productImage != null ? '<img style="height: 60px; " src="data:image/jpeg;base64,' + item.productImage + '" />' : ' ';
+                        html += '<tr><td>' + imageHtml +
+                            '</td><td>' + item.productName +
+                            '</td><td>' + item.quantity +
+                            '</td><td>$ ' + item.price +
+                            '</td><td><span class="custom_button" onclick="removeProduct(this, \'' + item.productId + '\')">Remove From Cart</span></td></tr>';
+                        totalSum += item.price;
+                    });
+                    $(html).appendTo(body);
+                    $('#cart_totalSum').html('$ ' + totalSum.toFixed(2));
+                }
+            },
+            error: function () {
+                toastr.error('Error');
+            }
+        });
+    });
+
+    function removeProduct(self, productId) {
+        $.ajax({
+            url: 'Cart/RemoveProduct',
+            type: 'GET',
+            data: 'productId=' + productId,
+            success: function (responce) {
+                if (responce.successed) {
+                    window.td = self;
+                    var row = self.parentNode.parentNode;
+                    row.remove();
+                    checkCart();
+                } else {
+                    toastr.error(responce.description);
+                }
+            },
+            error: function () {
+                toastr.error('Error');
+            }
+        })
+    }
+
+    function checkCart() {
+        var table = document.getElementById('table');
+        var totalSum = 0;
+        console.log(table);
+        if (table.rows.length > 2) {
+            for (var i = 1; i < table.rows.length - 1; i++) {
+                var text = table.rows[i].cells[3].innerText;
+                var price = parseFloat(text.split(' ')[1]);
+                totalSum += price;
+            }
+        }
+        $('#prod_count').html(table.rows.length - 2);
+        $('#cart_totalSum').html(totalSum.toFixed(2) + ' $');
+    }
+</script>

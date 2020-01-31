@@ -20,7 +20,7 @@ namespace ShopStore.Web.Controllers
         public IActionResult Index()
         {
             var orders = _orderService.GetUserOrders(User.GetUserId());
-            ViewBag.ProductCount = GetCart().Quantity;
+            ViewBag.ProductCount = GetCart().Count;
             return View(orders);
         }
 
@@ -31,7 +31,7 @@ namespace ShopStore.Web.Controllers
             if (result.Successed)
             {
                 var cart = GetCart();
-                cart.Reset();
+                cart.RemoveAll();
                 SaveCart(cart);
             }
             return RedirectToAction(nameof(Index));

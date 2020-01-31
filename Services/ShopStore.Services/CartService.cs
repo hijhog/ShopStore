@@ -98,7 +98,12 @@ namespace ShopStore.Services
 
         public int GetCountProducts(Guid userId)
         {
-            return _cartRepository.GetAll().Where(x => x.User.Id == userId).Count();
+            return _cartRepository.GetAll().Where(x => x.UserId == userId).Count();
+        }
+
+        public IEnumerable<Guid> GetProductIds(Guid userId)
+        {
+            return _cartRepository.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductId);
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopStore.Services.Contract.Interfaces;
-using ShopStore.Web.Filters;
 
 namespace ShopStore.Web.Controllers
 {
@@ -26,7 +25,7 @@ namespace ShopStore.Web.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            ViewBag.ProductCount = GetCart().Quantity;
+            ViewBag.ProductCount = GetCart().Count;
             return View();
         }
 
