@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using ShopStore.Common;
 using ShopStore.Data.Models.Interfaces;
 using ShopStore.Data.Models.UserEntities;
@@ -17,16 +18,19 @@ namespace ShopStore.Services
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IMapper _mapper;
+        private readonly ILogger<AccountService> _logger;
         public AccountService(
             UserManager<AppUser> userManager,
             RoleManager<Role> roleManager,
             SignInManager<AppUser> signInManager,
-            IMapper mapper)
+            IMapper mapper,
+            ILogger<AccountService> logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<OperationResult> LoginAsync(string userName, string password)
@@ -50,7 +54,8 @@ namespace ShopStore.Services
             }
             catch(Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to log in";
             }
             return result;
         }
@@ -63,34 +68,42 @@ namespace ShopStore.Services
         public async Task<OperationResult> CreateAsync(UserDTO dto)
         {
             var result = new OperationResult();
-            var user = await _userManager.FindByNameAsync(dto.UserName);
-            if(user == null)
+            try
             {
-                user = _mapper.Map<AppUser>(dto);
-                user.Id = Guid.NewGuid();
-                var identityResult = await _userManager.CreateAsync(user, dto.Password);
-                if (!identityResult.Succeeded)
+                var user = await _userManager.FindByNameAsync(dto.UserName);
+                if (user == null)
                 {
-                    result.Description = GetErrorMessage(identityResult);
-                }
-                else
-                {
-                    var role = await _roleManager.FindByIdAsync(dto.RoleId);
-                    identityResult = await _userManager.AddToRoleAsync(user, role.Name);
+                    user = _mapper.Map<AppUser>(dto);
+                    user.Id = Guid.NewGuid();
+                    var identityResult = await _userManager.CreateAsync(user, dto.Password);
                     if (!identityResult.Succeeded)
                     {
                         result.Description = GetErrorMessage(identityResult);
                     }
                     else
                     {
-                        result.Successed = true;
+                        var role = await _roleManager.FindByIdAsync(dto.RoleId);
+                        identityResult = await _userManager.AddToRoleAsync(user, role.Name);
+                        if (!identityResult.Succeeded)
+                        {
+                            result.Description = GetErrorMessage(identityResult);
+                        }
+                        else
+                        {
+                            result.Successed = true;
+                        }
                     }
                 }
+                else
+                {
+                    result.Description = "User with that UserName already exists!";
+                }
             }
-            else
+            catch(Exception ex)
             {
-                result.Description = "User with that UserName already exists!";
-            }
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to create user";
+            }            
 
             return result;
         }
@@ -121,7 +134,8 @@ namespace ShopStore.Services
             }
             catch(Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to edit user";
             }            
 
             return result;
@@ -152,7 +166,8 @@ namespace ShopStore.Services
             }
             catch(Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to change password of user";
             }            
 
             return result;

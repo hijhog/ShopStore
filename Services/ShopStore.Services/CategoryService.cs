@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using ShopStore.Common;
 using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
@@ -17,14 +18,16 @@ namespace ShopStore.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<CategoryService> _logger;
 
         public CategoryService(
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper, ILogger<CategoryService> logger)
         {
             _unitOfWork = unitOfWork;
             _categoryRepository = unitOfWork.GetRepository<Category>();
             _mapper = mapper;
+            _logger = logger;
         }
 
         public CategoryDTO Get(Guid id)
@@ -51,7 +54,8 @@ namespace ShopStore.Services
             }
             catch(Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to remove category";
             }
             return result;
         }
@@ -78,7 +82,8 @@ namespace ShopStore.Services
             }
             catch(Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to save category";
             }
             return result;
         }

@@ -8,6 +8,7 @@ using AutoMapper;
 using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Services.Contract.Interfaces;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace ShopStore.Services
 {
@@ -17,14 +18,16 @@ namespace ShopStore.Services
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<Cart> _cartRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<OrderService> _logger;
         public OrderService(
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper, ILogger<OrderService> logger)
         {
             _unitOfWork = unitOfWork;
             _orderRepository = unitOfWork.GetRepository<Order>();
             _cartRepository = unitOfWork.GetRepository<Cart>();
             _mapper = mapper;
+            _logger = logger;
         }
 
         public IEnumerable<OrderDTO> GetOrders()
@@ -35,7 +38,7 @@ namespace ShopStore.Services
 
         public IEnumerable<OrderDTO> GetUserOrders(Guid userId)
         {
-            var orders = _orderRepository.IncludeMultiple(_orderRepository.GetAll().Where(x => x.UserId == userId), p => p.Product, p => p.User);
+            var orders = _orderRepository.IncludeMultiple(_orderRepository.GetAll().Where(x => x.UserId == userId), p => p.Product);
             return orders.Select(x => _mapper.Map<OrderDTO>(x));
         }
 
@@ -46,8 +49,14 @@ namespace ShopStore.Services
             {
                 var carts = _cartRepository.IncludeMultiple(_cartRepository.GetAll().Where(x => x.UserId == userId), p => p.Product)
                                            .Select(x => _mapper.Map<CartDTO>(x));
+                var orderProducts = _orderRepository.GetAll().Where(x => x.UserId == userId).Select(x=>x.ProductId);
                 foreach (var cart in carts)
                 {
+                    if (orderProducts.Contains(cart.ProductId))
+                    {
+                        throw new CustomException($"The product {cart.ProductName} has already been ordered");
+                    }
+
                     var order = _mapper.Map<Order>(cart);
                     order.Status = OrderStatus.Accepted;
                     _orderRepository.Insert(order);
@@ -57,9 +66,14 @@ namespace ShopStore.Services
                 await _unitOfWork.SaveAsync();
                 result.Successed = true;
             }
-            catch (Exception ex)
+            catch(CustomException ex)
             {
                 result.Description = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to order";
             }
             return result;
         }
@@ -77,7 +91,8 @@ namespace ShopStore.Services
             }
             catch (Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to annulment order";
             }
             return result;
         }
@@ -94,7 +109,8 @@ namespace ShopStore.Services
             }
             catch (Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to remove order";
             }
 
             return result;
@@ -113,7 +129,8 @@ namespace ShopStore.Services
             }
             catch (Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to change status of order";
             }
             return result;
         }

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cart";
 }
 
 <h1>Your Cart</h1>
@@ -15,7 +15,6 @@
         </tr>
     </thead>
     <tbody id="cart_table_body">
-
     </tbody>
     <tfoot>
         <tr>
@@ -24,7 +23,7 @@
             <td></td>
             <td id="cart_totalSum"></td>
             <td id="order_btn_block">
-                <a class="btn btn-primary btn-sm" asp-area="" asp-controller="Order" asp-action="MakeOrder">To Order</a>
+                <button class="btn btn-primary btn-sm" onclick="makeAnOrder()">To Order</button>
             </td>
         </tr>
     </tfoot>
@@ -32,14 +31,14 @@
 <script>
     $(function () {
         $.ajax({
-            url: 'api/Cart/GetCartProducts',
+            url: '/api/Cart/GetCartProducts',
             type: 'GET',
-            success: function (response) {
-                if (response.cart.length != 0) {
+            success: function (responce) {
+                if (responce.cart.length != 0) {
                     var body = $('#cart_table_body');
                     var totalSum = 0;
                     var html = '';
-                    response.cart.forEach(function (item) {
+                    responce.cart.forEach(function (item) {
                         var imageHtml = item.productImage != null ? '<img style="height: 60px; " src="data:image/jpeg;base64,' + item.productImage + '" />' : ' ';
                         html += '<tr><td>' + imageHtml +
                             '</td><td>' + item.productName +
@@ -60,11 +59,11 @@
 
     function removeProduct(self, productId) {
         $.ajax({
-            url: 'api/Cart/RemoveProduct',
+            url: '/api/Cart/RemoveProduct',
             type: 'GET',
             data: 'productId=' + productId,
-            success: function (response) {
-                if (response.successed) {
+            success: function (responce) {
+                if (responce.successed) {
                     window.td = self;
                     var row = self.parentNode.parentNode;
                     row.remove();
@@ -94,4 +93,20 @@
         $('#cart_totalSum').html(totalSum.toFixed(2) + ' $');
     }
 
+    function makeAnOrder() {
+        $.ajax({
+            url: '/Order/MakeOrder',
+            type: 'GET',
+            success: function (response) {
+                if (response.successed) {
+                    window.location.href = "/Order/Index";
+                } else {
+                    toastr.error(response.description);
+                }
+            },
+            error: function () {
+                toastr.error('Error');
+            }
+        })
+    }
 </script>

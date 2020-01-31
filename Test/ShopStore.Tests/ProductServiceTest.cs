@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using Castle.Core.Logging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
@@ -42,8 +45,8 @@ namespace ShopStore.Tests
             _mockCategoryRepository.Setup(x => x.GetAll()).Returns(GetListCategories());
             _mockUnitOfWork.Setup(x => x.GetRepository<Product>()).Returns(_mockProductRepository.Object);
             _mockUnitOfWork.Setup(x => x.GetRepository<Category>()).Returns(_mockCategoryRepository.Object);
-            _productService = new ProductService(_mockUnitOfWork.Object, _mapper);
-            _categoryService = new CategoryService(_mockUnitOfWork.Object, _mapper);
+            _productService = new ProductService(_mockUnitOfWork.Object, _mapper, new NullLogger<ProductService>());
+            _categoryService = new CategoryService(_mockUnitOfWork.Object, _mapper, new NullLogger<CategoryService>());
         }
 
         [Fact]

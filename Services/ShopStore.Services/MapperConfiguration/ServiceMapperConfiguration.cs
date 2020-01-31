@@ -28,6 +28,7 @@ namespace ShopStore.Services.MapperConfiguration
 
             CreateMap<Order, OrderDTO>()
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Product.Price))
                 .ForMember(dest => dest.ProductImage, opt => opt.MapFrom(src => src.Product.Image))
                 .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.ToString()))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.LastName} {src.User.FirstName} {src.User.Patronymic}"));

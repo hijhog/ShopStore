@@ -10,11 +10,11 @@
             url: 'Home/GetProductsByCategory',
             type: 'GET',
             data: 'categoryId=' + categoryId,
-            success: function (data) {
+            success: function (response) {
                 var root = $('#prodList');
-                if (data.products.length != 0) {
+                if (response.products.length != 0) {
                     $(root).empty();
-                    data.products.forEach(function (item) {
+                    response.products.forEach(function (item) {
                         var html = '<div class="card mx-2 mb-2" style="width: 16rem;">' +
                             '<img class="card-img-top cropped" src="data:image/jpeg;base64,' + item.image + '" />' +
                             '<div class="card-body">' +
@@ -35,11 +35,11 @@
 
     function addProductToCart(productId) {
         $.ajax({
-            url: 'Cart/AddProductToCart',
+            url: '/api/Cart/AddProductToCart',
             type: 'GET',
             data: 'productId=' + productId,
-            success: function (data) {
-                if (data.successed) {
+            success: function (response) {
+                if (response.successed) {
                     updateCart();
                     toastr.success('Product added to cart');
                 } else {
@@ -54,10 +54,10 @@
 
     function updateCart() {
         $.ajax({
-            url: 'Cart/GetProductCount',
+            url: '/api/Cart/GetProductCount',
             type: 'GET',
-            success: function (data) {
-                $('#prod_count').html(data.count);
+            success: function (response) {
+                $('#prod_count').html(response.count);
             },
             error: function () {
                 toastr.error('Failed to update the number of items in the cart');

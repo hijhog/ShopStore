@@ -44,5 +44,11 @@ namespace ShopStore.Web.Controllers
             var categories = _categoryService.GetAll();
             return Json(new { categories });
         }
+
+        public IActionResult Cart()
+        {
+            ViewBag.ProductCount = GetCart().Count;
+            return View();
+        }
     }
 }

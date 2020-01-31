@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ShopStore.Common;
 using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
@@ -18,13 +19,15 @@ namespace ShopStore.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Product> _productRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<ProductService> _logger;
         public ProductService(
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper, ILogger<ProductService> logger)
         {
             _unitOfWork = unitOfWork;
             _productRepository = unitOfWork.GetRepository<Product>();
             _mapper = mapper;
+            _logger = logger;
         }
 
         public ProductDTO Get(Guid id)
@@ -53,7 +56,8 @@ namespace ShopStore.Services
             }
             catch (Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to remove product";
             }
             return result;
         }
@@ -80,7 +84,8 @@ namespace ShopStore.Services
             }
             catch (Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to save product";
             }
             return result;
         }

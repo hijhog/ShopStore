@@ -84,6 +84,7 @@ namespace ShopStore.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Roles = _roleService.GetRoles().Select(x => new SelectListItem(x.Name, x.Id.ToString()));
                 return View(model);
             }
 
@@ -94,6 +95,7 @@ namespace ShopStore.Web.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
+            ViewBag.Roles = _roleService.GetRoles().Select(x => new SelectListItem(x.Name, x.Id.ToString()));
             ModelState.AddModelError(string.Empty, result.Description);
             return View(model);
         }

@@ -34,7 +34,7 @@ namespace ShopStore.Web.Controllers
                 cart.RemoveAll();
                 SaveCart(cart);
             }
-            return RedirectToAction(nameof(Index));
+            return Json(new { result.Successed, result.Description });
         }
 
         [HttpGet]

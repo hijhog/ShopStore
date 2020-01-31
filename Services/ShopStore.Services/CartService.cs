@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using ShopStore.Common;
 using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
@@ -17,13 +18,15 @@ namespace ShopStore.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Cart> _cartRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<CartService> _logger;
         public CartService(
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper, ILogger<CartService> logger)
         {
             _unitOfWork = unitOfWork;
             _cartRepository = unitOfWork.GetRepository<Cart>();
             _mapper = mapper;
+            _logger = logger;
         }
 
         public IEnumerable<CartDTO> GetCartByUserId(Guid userId)
@@ -53,7 +56,8 @@ namespace ShopStore.Services
             }
             catch(Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to add product";
             }
 
             return result;
@@ -70,7 +74,8 @@ namespace ShopStore.Services
             }
             catch(Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to remove product";
             }
 
             return result;
@@ -91,7 +96,8 @@ namespace ShopStore.Services
             }
             catch(Exception ex)
             {
-                result.Description = ex.Message;
+                _logger.LogError($"Exception: {ex.GetType().ToString()}; Message: {ex.Message}; StackTrace: {ex.StackTrace}");
+                result.Description = "Failed to remove products in the cart";
             }
             return result;
         }
