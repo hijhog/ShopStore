@@ -15,6 +15,5 @@ namespace ShopStore.Services.Contract.Interfaces
         Task<OperationResult> RemoveAsync(Guid id);
 
         IEnumerable<ProductDTO> GetProductsByCategory(Guid categoryId);
-        IEnumerable<ProductDTO> GetFilteredProducts(IEnumerable<Guid> prodIds);
     }
 }
