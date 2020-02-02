@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using Castle.Core.Logging;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ShopStore.Data.Contract.BusinessEntities;
@@ -10,13 +7,10 @@ using ShopStore.Services;
 using ShopStore.Services.Contract.Interfaces;
 using ShopStore.Services.Contract.Models;
 using ShopStore.Services.MapperConfiguration;
-using ShopStore.Web.Areas.Admin.Controllers;
-using ShopStore.Web.Areas.Admin.Models;
 using ShopStore.Web.Configurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace ShopStore.Tests
@@ -27,12 +21,11 @@ namespace ShopStore.Tests
         private Mock<IRepository<Product>> _mockProductRepository;
         private Mock<IRepository<Category>> _mockCategoryRepository;
         private IProductService _productService;
-        private ICategoryService _categoryService;
         private IMapper _mapper;
         private List<Guid> categoryIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() };
         public ProductServiceTest()
         {
-            var configuration = new MapperConfiguration(cfg => 
+            var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new ServiceMapperConfiguration());
                 cfg.AddProfile(new WebMapperConfiguration());
@@ -46,7 +39,6 @@ namespace ShopStore.Tests
             _mockUnitOfWork.Setup(x => x.GetRepository<Product>()).Returns(_mockProductRepository.Object);
             _mockUnitOfWork.Setup(x => x.GetRepository<Category>()).Returns(_mockCategoryRepository.Object);
             _productService = new ProductService(_mockUnitOfWork.Object, _mapper, new NullLogger<ProductService>());
-            _categoryService = new CategoryService(_mockUnitOfWork.Object, _mapper, new NullLogger<CategoryService>());
         }
 
         [Fact]
@@ -84,8 +76,8 @@ namespace ShopStore.Tests
         {
             //Arrange
             var product = GetListProducts().First();
-            var productDTO = new ProductDTO 
-            { 
+            var productDTO = new ProductDTO
+            {
                 Id = product.Id,
                 Name = "Banana",
                 Description = "Banana",
