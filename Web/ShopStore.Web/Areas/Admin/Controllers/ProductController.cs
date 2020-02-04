@@ -93,13 +93,20 @@ namespace ShopStore.Web.Areas.Admin.Controllers
         [Authorize(Roles = GlobalConstants.Admin)]
         public async Task<IActionResult> Remove(Guid id)
         {
-            var result = await _categoryService.RemoveAsync(id);
+            var result = await _productService.RemoveAsync(id);
             if (!result.Successed)
             {
                 ViewData["ErrorMessage"] = result.Description;
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult GetFilterProducts(ProductFilter filter)
+        {
+            var products = _productService.GetFilterProducts(filter);
+            return Json(new { data = products });
         }
     }
 }

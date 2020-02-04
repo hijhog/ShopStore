@@ -39,9 +39,10 @@ namespace ShopStore.Services
 
         public IEnumerable<ProductDTO> GetAll()
         {
-            var products = _productRepository.GetAll().Include(x=>x.Category);
-            return products.Select(x =>
-                _mapper.Map<ProductDTO>(x));
+            return _productRepository.GetAll()
+                .Include(x=>x.Category)
+                .Select(x =>
+                    _mapper.Map<ProductDTO>(x));
         }
 
         public async Task<OperationResult> RemoveAsync(Guid id)
@@ -103,6 +104,18 @@ namespace ShopStore.Services
             }
 
             return products.Select(x => _mapper.Map<ProductDTO>(x));
+        }
+
+        public IEnumerable<ProductDTO> GetFilterProducts(ProductFilter filter)
+        {
+            return _productRepository.GetAll()
+                .Where(x => 
+                    (filter.Name == null || x.Name.Contains(filter.Name)) &&
+                    (filter.Description == null || x.Description.Contains(filter.Description)) &&
+                    (filter.Price == null || x.Price.Equals(filter.Price.Value)) &&
+                    (filter.Category == null || x.Category.Name.Contains(filter.Category)))
+                .Include(x => x.Category).Select(x =>
+                _mapper.Map<ProductDTO>(x));
         }
     }
 }

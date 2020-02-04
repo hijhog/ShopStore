@@ -32,7 +32,7 @@ namespace ShopStore.Services
 
         public CategoryDTO Get(Guid id)
         {
-            Category category = _categoryRepository.Get(new Guid[] { id });
+            Category category = _categoryRepository.Get(id);
             return _mapper.Map<CategoryDTO>(category);
         }
 
@@ -47,7 +47,7 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                _categoryRepository.Remove(new Guid[] { id });
+                _categoryRepository.Remove(id);
                 await _unitOfWork.SaveAsync();
 
                 result.Successed = true;

@@ -50,7 +50,6 @@ function removeProduct(self, productId) {
 function checkCart() {
     var table = document.getElementById('table');
     var totalSum = 0;
-    console.log(table);
     if (table.rows.length > 2) {
         for (var i = 1; i < table.rows.length - 1; i++) {
             var text = table.rows[i].cells[3].innerText;
