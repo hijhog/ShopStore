@@ -6,9 +6,8 @@
     var roles = ViewBag.Roles as IEnumerable<SelectListItem>;
 }
 
-<h1>Create</h1>
+<h1>Create User</h1>
 
-<h4>UserVM</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -50,7 +49,7 @@
                 <select asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()" class="form-control"></select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-            @if (User.Identity.IsAuthenticated)
+            @if (User.IsInRole("Admin"))
             {
                 <div class="form-group">
                     <label asp-for="RoleId"></label>

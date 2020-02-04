@@ -67,7 +67,7 @@ namespace ShopStore.Web.Controllers
         public async Task<IActionResult> Create()
         {
             var userVM = new UserVM();
-            if (!User.Identity.IsAuthenticated)
+            if (!User.IsInRole("Admin"))
             {
                 userVM.RoleId = (await _roleService.GetRoleIdByNameAsync(GlobalConstants.User)).Id.ToString();
             }
