@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using ShopStore.Common;
 using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
-using ShopStore.Data.Repositories;
 using ShopStore.Services.Contract.Interfaces;
 using ShopStore.Services.Contract.Models;
 using System;
@@ -39,10 +38,7 @@ namespace ShopStore.Services
 
         public IEnumerable<ProductDTO> GetAll()
         {
-            return _productRepository.GetAll()
-                .Include(x=>x.Category)
-                .Select(x =>
-                    _mapper.Map<ProductDTO>(x));
+            return _mapper.ProjectTo<ProductDTO>(_productRepository.GetAll()).ToList();
         }
 
         public async Task<OperationResult> RemoveAsync(Guid id)
@@ -108,14 +104,13 @@ namespace ShopStore.Services
 
         public IEnumerable<ProductDTO> GetFilterProducts(ProductFilter filter)
         {
-            return _productRepository.GetAll()
-                .Where(x => 
+            var products = _productRepository.GetAll()
+                .Where(x =>
                     (filter.Name == null || x.Name.Contains(filter.Name)) &&
                     (filter.Description == null || x.Description.Contains(filter.Description)) &&
                     (filter.Price == null || x.Price.Equals(filter.Price.Value)) &&
-                    (filter.Category == null || x.Category.Name.Contains(filter.Category)))
-                .Include(x => x.Category).Select(x =>
-                _mapper.Map<ProductDTO>(x));
+                    (filter.Category == null || x.Category.Name.Contains(filter.Category)));
+            return _mapper.ProjectTo<ProductDTO>(products).ToList();
         }
     }
 }

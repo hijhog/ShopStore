@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using ShopStore.Data.Contract.BusinessEntities;
 using ShopStore.Data.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ShopStore.Data.Repositories
 {

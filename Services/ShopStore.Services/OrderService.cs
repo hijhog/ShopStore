@@ -32,14 +32,13 @@ namespace ShopStore.Services
 
         public IEnumerable<OrderDTO> GetOrders()
         {
-            var orders = _orderRepository.IncludeMultiple(_orderRepository.GetAll(), p => p.Product, p => p.User);
-            return orders.Select(x => _mapper.Map<OrderDTO>(x));
+            return _mapper.ProjectTo<OrderDTO>(_orderRepository.GetAll()).ToList();
         }
 
         public IEnumerable<OrderDTO> GetUserOrders(Guid userId)
         {
-            var orders = _orderRepository.IncludeMultiple(_orderRepository.GetAll().Where(x => x.UserId == userId), p => p.Product);
-            return orders.Select(x => _mapper.Map<OrderDTO>(x));
+            var orders = _orderRepository.GetAll().Where(x => x.UserId == userId);
+            return _mapper.ProjectTo<OrderDTO>(orders);
         }
 
         public async Task<OperationResult> MakeAnOrderAsync(Guid userId)
@@ -47,8 +46,7 @@ namespace ShopStore.Services
             var result = new OperationResult();
             try
             {
-                var carts = _cartRepository.IncludeMultiple(_cartRepository.GetAll().Where(x => x.UserId == userId), p => p.Product)
-                                           .Select(x => _mapper.Map<CartDTO>(x));
+                var carts = _mapper.ProjectTo<CartDTO>(_cartRepository.GetAll().Where(x => x.UserId == userId));
                 var orderProducts = _orderRepository.GetAll().Where(x => x.UserId == userId).Select(x=>x.ProductId);
                 foreach (var cart in carts)
                 {

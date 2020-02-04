@@ -31,8 +31,7 @@ namespace ShopStore.Services
 
         public IEnumerable<CartDTO> GetCartByUserId(Guid userId)
         {
-            return _cartRepository.IncludeMultiple(_cartRepository.GetAll().Where(x => x.UserId == userId), p => p.Product)
-                .Select(x => _mapper.Map<CartDTO>(x));
+            return _mapper.ProjectTo<CartDTO>(_cartRepository.GetAll().Where(x => x.UserId == userId));
         }
 
         public async Task<OperationResult> AddProduct(CartDTO cartDto)
