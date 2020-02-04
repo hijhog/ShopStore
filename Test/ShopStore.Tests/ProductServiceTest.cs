@@ -118,14 +118,41 @@ namespace ShopStore.Tests
             Assert.Equal(GetListProducts().Where(x => x.CategoryId == categoryId).Count(), list.Count());
         }
 
+        [Fact]
+        public void TestProductFilter()
+        {
+            //Assign
+            var nameFilter = new ProductFilter { Name = "Puma" };
+            var descFilter = new ProductFilter { Description = "very" };
+            var priceFilter = new ProductFilter { Price = 3.99M };
+            var categoryFilter = new ProductFilter { Category = "shirt" };
+            var descCategoryFilter = new ProductFilter { Description = "very", Category = "Shoes" };
+
+            //Act
+            var nameList = _productService.GetFilterProducts(nameFilter);
+            var descList = _productService.GetFilterProducts(descFilter);
+            var priceList = _productService.GetFilterProducts(priceFilter);
+            var categoryList = _productService.GetFilterProducts(categoryFilter);
+            var descCategoryList = _productService.GetFilterProducts(descCategoryFilter);
+
+            //Assert
+            Assert.True(nameList.All(x => x.Name.Contains("Puma")));
+            Assert.True(descList.All(x => x.Description.Contains("very")));
+            Assert.True(priceList.All(x => x.Price.Equals(3.99M)));
+            Assert.True(categoryList.All(x => x.Category.Contains("shirt")));
+            Assert.True(descCategoryList.All(x => x.Description.Contains("very") && x.Category.Contains("Shoes")));
+
+        }
+
         private IQueryable<Product> GetListProducts()
         {
+            var categories = GetListCategories().ToList();
             var products = new List<Product>
             {
-                new Product{Id=Guid.NewGuid(),Name="Adidas",Description="The best shoes",Price=49.99M,CategoryId=categoryIds[0]},
-                new Product{Id=Guid.NewGuid(),Name="Puma",Description="The best shoes",Price=49.99M,CategoryId=categoryIds[0]},
-                new Product{Id=Guid.NewGuid(),Name="Lining",Description="The best shoes",Price=49.99M,CategoryId=categoryIds[0]},
-                new Product{Id=Guid.NewGuid(),Name="Nike",Description="The best shirt",Price=49.99M,CategoryId=categoryIds[1]},
+                new Product{Id=Guid.NewGuid(),Name="Adidas",Description="The best shoes",Price=15.99M,CategoryId=categories[0].Id, Category = categories[0]},
+                new Product{Id=Guid.NewGuid(),Name="Puma",Description="The very good shoes",Price=90M,CategoryId=categories[0].Id, Category = categories[0]},
+                new Product{Id=Guid.NewGuid(),Name="Lining",Description="The very handsome shoes",Price=3.99M,CategoryId=categories[0].Id, Category = categories[0]},
+                new Product{Id=Guid.NewGuid(),Name="Nike",Description="The very ugly shirt",Price=1.55M,CategoryId=categories[1].Id, Category = categories[1]},
             };
             return products.AsQueryable();
         }
